@@ -1,0 +1,14 @@
+diff -uNr mendeleydesktop-1.7.1-linux-x86_64/bin/install-mendeley-link-handler.sh mendeleydesktop-1.7.1-linux-x86_64_patch/bin/install-mendeley-link-handler.sh
+--- mendeleydesktop-1.7.1-linux-x86_64/bin/install-mendeley-link-handler.sh	2011-12-02 04:41:50.000000000 -0800
++++ mendeleydesktop-1.7.1-linux-x86_64_patch/bin/install-mendeley-link-handler.sh	2013-01-17 18:36:57.144830478 -0800
+@@ -1,5 +1,10 @@
+ #!/bin/sh
+ 
++# Mark Harfouche
++# 2013-01-17
++# This script is unecessary in Fedora rpm package
++exit 0
++
+ DESKTOP_PATH=$HOME/.local/share/applications/
+ DESKTOP_FILE=$DESKTOP_PATH/mendeleydesktop.desktop
+ MENDELEYDESKTOP_BIN=$HOME/.local/share/mendeleydesktop
