@@ -4,7 +4,7 @@ Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:		
-License:    MIT
+License:    Proprietary
 URL:        https://github.com/hmaarrfk/mendeley-rpm
 Source0:    mendeley-%{version}.tar.gz
 #Source1:    mendeleydesktop-1.7.1-linux-x86_64.tar.bz2
@@ -16,7 +16,7 @@ Patch0:     mendeley-0.1.0-install.patch
 
 Provides: libPDFNetC
 Provides: libMendeley
-BuildRequires:  desktop-file-utils
+#BuildRequires:  desktop-file-utils
 #Requires:libpng-compat >= 1.5
 #Requires:libpng10>=1.0
 #Requires:qt-x11>=4.8.4
@@ -24,6 +24,7 @@ BuildRequires:  desktop-file-utils
 #Requires:qtwebkit>= 2.2.2
 #Requires:openssl>= 0.9.8
 Requires: libpng-compat >= 1.5, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
+
 
 %description
 This is a repackaged version of what is available on the Mendeley website and attempts to make use of system libraries instead of the ones packaged with Mendeley.
@@ -53,7 +54,11 @@ cp -R share/doc/*           %{buildroot}%{_defaultdocdir}
 cp -R share/icons           %{buildroot}%{_datadir}
 cp -R share/mendeleydesktop %{buildroot}%{_datadir}
 cp -R lib/*                 %{buildroot}%{_libdir}
+chmod +x %{buildroot}%{_libdir}/libPDFNetC.so
+chmod +x %{buildroot}%{_libdir}/libMendeley.so.1.7.1
 cp -R bin/*                 %{buildroot}%{_bindir}
+chmod +x %{buildroot}%{_bindir}/install-mendeley-link-handler.sh
+chmod +x %{buildroot}%{_bindir}/mendeleydesktop
 
 desktop-file-install --delete-original --dir=${RPM_BUILD_ROOT}%{_datadir}/applications ./share/applications/mendeleydesktop.desktop
 
@@ -61,10 +66,18 @@ desktop-file-install --delete-original --dir=${RPM_BUILD_ROOT}%{_datadir}/applic
 rm -rf %{buildroot}
 
 %post
-%{_bindir}/xdg-icon-resource forceupdate --theme hicolor 2> /dev/null || :
+/usr/bin/update-desktop-database &> /dev/null || :
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun
-%{_bindir}/xdg-icon-resource forceupdate --theme hicolor 2> /dev/null || :
+/usr/bin/update-desktop-database &> /dev/null || :
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+fi
+
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %files
