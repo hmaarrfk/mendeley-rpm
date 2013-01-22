@@ -7,11 +7,10 @@ Summary:    Unofficial Mendeley RPM package.
 License:    Proprietary
 URL:        https://github.com/hmaarrfk/mendeley-rpm
 Source0:    mendeley-%{version}.tar.gz
-#Source1:    mendeleydesktop-1.7.1-linux-x86_64.tar.bz2
+Source1:    mendeleydesktop-1.7.1-linux-x86_64.tar.bz2
 
 # This patch stops the "install" script from executing everytime
 # by simply making it exit cleanly when called
-Patch0:     mendeley-0.1.0-install.patch
 
 
 Provides: libPDFNetC
@@ -23,7 +22,8 @@ Provides: libMendeley
 #Requires:qt>= 4.8.4
 #Requires:qtwebkit>= 2.2.2
 #Requires:openssl>= 0.9.8
-Requires: libpng-compat >= 1.5, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
+#Requires: libpng-compat >= 1.5, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
+Requires: libpng12 >= 1.2, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
 
 
 %description
@@ -34,33 +34,41 @@ This is a repackaged version of what is available on the Mendeley website and at
 
 %prep
 %setup -q
-%patch0 -p1
+tar -xf %SOURCE1
 
 
 %build
 # Need to remove the useless files
-ls -lah
-rm -rf ./lib/qt
-rm -rf ./lib/ssl
-#rm ./lib/mendeleydesktop/libexec/Updater
+mendeley_extract_directory=$(basename "%SOURCE1")
+mendeley_extract_directory="${mendeley_extract_directory%.*}"
+mendeley_extract_directory="${mendeley_extract_directory%.*}"
+rm -rf ${mendeley_extract_directory}/lib/qt
+rm -rf ${mendeley_extract_directory}/lib/ssl
+rm -f  ${mendeley_extract_directory}/lib/mendeleydesktop/libexec/Updater
+rm -rf ${mendeley_extract_directory}/lib/mendeleydesktop/plugins
+rm -f  ${mendeley_extract_directory}/bin/*
+cp mendeleydesktop ${mendeley_extract_directory}/bin/.
+chmod +x ${mendeley_extract_directory}/bin/mendeleydesktop
+chmod +x ${mendeley_extract_directory}/lib/libPDFNetC.so
+chmod +x ${mendeley_extract_directory}/lib/libMendeley.so.1.7.1
+
 
 
 %install
+mendeley_extract_directory=$(basename "%SOURCE1")
+mendeley_extract_directory="${mendeley_extract_directory%.*}"
+mendeley_extract_directory="${mendeley_extract_directory%.*}"
 mkdir -p %{buildroot}%{_defaultdocdir}
 mkdir -p %{buildroot}%{_datadir}
 mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_bindir}
-cp -R share/doc/*           %{buildroot}%{_defaultdocdir}
-cp -R share/icons           %{buildroot}%{_datadir}
-cp -R share/mendeleydesktop %{buildroot}%{_datadir}
-cp -R lib/*                 %{buildroot}%{_libdir}
-chmod +x %{buildroot}%{_libdir}/libPDFNetC.so
-chmod +x %{buildroot}%{_libdir}/libMendeley.so.1.7.1
-cp -R bin/*                 %{buildroot}%{_bindir}
-chmod +x %{buildroot}%{_bindir}/install-mendeley-link-handler.sh
-chmod +x %{buildroot}%{_bindir}/mendeleydesktop
+cp -R ${mendeley_extract_directory}/share/doc/*           %{buildroot}%{_defaultdocdir}
+cp -R ${mendeley_extract_directory}/share/icons           %{buildroot}%{_datadir}
+cp -R ${mendeley_extract_directory}/share/mendeleydesktop %{buildroot}%{_datadir}
+cp -R ${mendeley_extract_directory}/lib/*                 %{buildroot}%{_libdir}
+cp -R ${mendeley_extract_directory}/bin/*                 %{buildroot}%{_bindir}
 
-desktop-file-install --delete-original --dir=${RPM_BUILD_ROOT}%{_datadir}/applications ./share/applications/mendeleydesktop.desktop
+desktop-file-install --delete-original --dir=${RPM_BUILD_ROOT}%{_datadir}/applications ./${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop
 
 %clean
 rm -rf %{buildroot}
@@ -81,8 +89,8 @@ fi
 
 
 %files
-%doc README LICENSE
-%{_bindir}/install-mendeley-link-handler.sh
+#%doc README LICENSE
+%doc README
 %{_bindir}/mendeleydesktop
 %{_libdir}/libMendeley.*
 %{_libdir}/libPDFNetC.so

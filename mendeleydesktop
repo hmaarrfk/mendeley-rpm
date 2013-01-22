@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+# Mendeley Desktop launcher for the Unofficial Mendeley Desktop
+# Fedora Pacakge.
+# By: Mark Harfouche
+# 2012.01.21
+
+import os
+import subprocess
+import sys
+import platform
+
+MENDELEY_BASE_PATH = "/usr/"
+MENDELEY_LIB_PATH = MENDELEY_BASE_PATH + "lib64/"
+
+MENDELEY_BIN_PATH = MENDELEY_LIB_PATH + "mendeleydesktop/libexec/mendeleydesktop.x86_64"
+
+# I think mendeley desktop will look for this enviroment variable when it is running, so I will keep it
+
+# Save the original library path so that Mendeley can launch
+# external applications without them inheriting the library path changes
+# made by this script
+try:
+        os.environ["LD_LIBRARY_PATH_ORIGINAL"] = os.environ["LD_LIBRARY_PATH"]
+except KeyError:
+        pass
+
+
+SCRIPT_PATH = os.path.realpath(__file__)
+# Save the path to the script which started Mendeley, used to restart
+# Mendeley after an auto-update
+os.environ["MENDELEY_GENERIC"] = SCRIPT_PATH
+
+args = [MENDELEY_BIN_PATH];
+extra_args = ["--force-system-qt", "--unix-distro-build"];
+
+
+subprocess.call(args + sys.argv[1:] + extra_args)
+
