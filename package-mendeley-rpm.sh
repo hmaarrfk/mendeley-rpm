@@ -8,7 +8,7 @@ BASEDIR=$(dirname $0)
 
 rpmdev-setuptree
 
-mendeley_binary_archive=mendeleydesktop-1.7.1-linux-x86_64.tar.bz2
+mendeley_binary_archive=`grep Source1 mendeley.spec | awk '{print $2}'`
 
 rpm -rf ~/rpmbuild
 
@@ -23,8 +23,6 @@ cp mendeley.spec ./BUILD/mendeley-${version}/.
 
 
 cp mendeley.spec ~/rpmbuild/SPECS/.
-
-cp mendeley-0.1.0-install.patch ~/rpmbuild/SOURCES/.
 
 tar czf ~/rpmbuild/SOURCES/mendeley-${version}.tar.gz -C ./BUILD mendeley-${version}
 cp ${mendeley_binary_archive} ~/rpmbuild/SOURCES/

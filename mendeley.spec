@@ -1,13 +1,14 @@
 Name:       mendeley
-Version:    0.1.0
+Version:    1.8.0
+# Make sure to use rpmdev-bumpspec to update this
 Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
-#Group:		
+#Group:
 License:    Proprietary
 URL:        https://github.com/hmaarrfk/mendeley-rpm
 Source0:    mendeley-%{version}.tar.gz
-Source1:    mendeleydesktop-1.7.1-linux-x86_64.tar.bz2
+Source1:    mendeleydesktop-1.8-linux-x86_64.tar.bz2
 
 # This patch stops the "install" script from executing everytime
 # by simply making it exit cleanly when called
@@ -23,7 +24,14 @@ Provides: libMendeley
 #Requires:qtwebkit>= 2.2.2
 #Requires:openssl>= 0.9.8
 #Requires: libpng-compat >= 1.5, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
-Requires: libpng12 >= 1.2, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
+#Requires: libpng12 >= 1.2, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
+Requires: libpng.so.3
+Requires: qt-x11 >= 4.8.4
+Requires: qt >= 4.8.4
+Requires: qtwebkit >= 2.2.2
+Requires: openssl >= 0.9.8
+Requires: libPDFNetC
+Requires: libMendeley
 
 
 %description
@@ -50,7 +58,7 @@ rm -f  ${mendeley_extract_directory}/bin/*
 cp mendeleydesktop ${mendeley_extract_directory}/bin/.
 chmod +x ${mendeley_extract_directory}/bin/mendeleydesktop
 chmod +x ${mendeley_extract_directory}/lib/libPDFNetC.so
-chmod +x ${mendeley_extract_directory}/lib/libMendeley.so.1.7.1
+chmod +x ${mendeley_extract_directory}/lib/libMendeley.so.1.8.0
 
 
 
@@ -101,5 +109,13 @@ fi
 %{_datadir}/mendeleydesktop
 
 
+
+# Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Thu Jan 31 2013 RPM Maker - 1.8.0-1
+- Updated to Mendeley version 1.8.0
+
+* Tue Jan 22 2013 Make RPMs - 0.1.0-2
+- Fixed the dependency for libpng.so.3
+
 
