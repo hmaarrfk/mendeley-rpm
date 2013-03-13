@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.8.2
 # Make sure to use rpmdev-bumpspec to update this
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -10,21 +10,8 @@ URL:        https://github.com/hmaarrfk/mendeley-rpm
 Source0:    mendeley-%{version}.tar.gz
 Source1:    mendeleydesktop-1.8.2-linux-x86_64.tar.bz2
 
-# This patch stops the "install" script from executing everytime
-# by simply making it exit cleanly when called
-
-
 Provides: libPDFNetC
 Provides: libMendeley
-#BuildRequires:  desktop-file-utils
-#Requires:libpng-compat >= 1.5
-#Requires:libpng10>=1.0
-#Requires:qt-x11>=4.8.4
-#Requires:qt>= 4.8.4
-#Requires:qtwebkit>= 2.2.2
-#Requires:openssl>= 0.9.8
-#Requires: libpng-compat >= 1.5, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
-#Requires: libpng12 >= 1.2, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
 Requires: libpng.so.3
 Requires: qt-x11 >= 4.8.4
 Requires: qt >= 4.8.4
@@ -112,13 +99,16 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Wed Mar 13 2013 Mark Harfouche - 1.8.2-2
+- Cleaned up the spec file
+
 * Wed Mar 13 2013 Chris Fallin - 1.8.2-1
 - Updated to Mendeley version 1.8.2
 
-* Thu Jan 31 2013 RPM Maker - 1.8.0-1
+* Thu Jan 31 2013 Mark Harfouche - 1.8.0-1
 - Updated to Mendeley version 1.8.0
 
-* Tue Jan 22 2013 Make RPMs - 0.1.0-2
+* Tue Jan 22 2013 Mark Harfouche - 0.1.0-2
 - Fixed the dependency for libpng.so.3
 
 
