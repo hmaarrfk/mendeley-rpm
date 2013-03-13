@@ -25,7 +25,7 @@ Provides: libMendeley
 #Requires:openssl>= 0.9.8
 #Requires: libpng-compat >= 1.5, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
 #Requires: libpng12 >= 1.2, qt-x11, qt, qtwebkit, openssl, libPDFNetC, libPDFNetC, libMendeley
-Requires: libpng.so.3
+Requires: libpng >= 1.5
 Requires: qt-x11 >= 4.8.4
 Requires: qt >= 4.8.4
 Requires: qtwebkit >= 2.2.2
