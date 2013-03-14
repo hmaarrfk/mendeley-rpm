@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.8.2
 # Make sure to use rpmdev-bumpspec to update this
-Release:    2%{?dist}
+Release:    4%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -12,7 +12,7 @@ Source1:    mendeleydesktop-1.8.2-linux-x86_64.tar.bz2
 
 Provides: libPDFNetC
 Provides: libMendeley
-Requires: libpng.so.3
+Requires: libpng >= 1.5
 Requires: qt-x11 >= 4.8.4
 Requires: qt >= 4.8.4
 Requires: qtwebkit >= 2.2.2
