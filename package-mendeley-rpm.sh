@@ -17,7 +17,7 @@ version=`grep Version mendeley.spec | awk '{print $2}'`
 mkdir -p ./BUILD/mendeley-${version}
 
 #cp -R ${mendeley_binary_archive} ./BUILD/mendeley-${version}/.
-cp README ./BUILD/mendeley-${version}/.
+cp README.md ./BUILD/mendeley-${version}/README
 cp mendeleydesktop ./BUILD/mendeley-${version}/.
 cp mendeley.spec ./BUILD/mendeley-${version}/.
 
