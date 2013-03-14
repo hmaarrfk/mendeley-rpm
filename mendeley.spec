@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.8.2
 # Make sure to use rpmdev-bumpspec to update this
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
