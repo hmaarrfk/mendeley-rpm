@@ -13,7 +13,7 @@ import platform
 MENDELEY_BASE_PATH = "/usr/"
 MENDELEY_LIB_PATH = MENDELEY_BASE_PATH + "lib64/"
 
-MENDELEY_BIN_PATH = MENDELEY_LIB_PATH + "mendeleydesktop/libexec/mendeleydesktop.x86_64"
+MENDELEY_BIN_PATH = MENDELEY_LIB_PATH + "mendeleydesktop/libexec/mendeleydesktop"
 
 # I think mendeley desktop will look for this enviroment variable when it is running, so I will keep it
 
