@@ -1,0 +1,11 @@
+--- share/applications/mendeleydesktop.desktop	2013-07-13 04:23:22.715489691 +0100
++++ share/applications/mendeleydesktop.desktop	2013-07-13 04:23:18.316460046 +0100
+@@ -2,7 +2,7 @@
+ Name=Mendeley Desktop
+ GenericName=Research Paper Manager
+ Comment=Mendeley Desktop is software for managing and sharing research papers
+-Exec=mendeleydesktop
++Exec=mendeleydesktop --unix-distro-build
+ Icon=mendeleydesktop
+ Terminal=false
+ Type=Application
