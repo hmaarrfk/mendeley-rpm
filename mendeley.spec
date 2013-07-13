@@ -1,14 +1,14 @@
 Name:       mendeley
-Version:    1.8.4
+Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
 License:    Proprietary
 URL:        https://github.com/hmaarrfk/mendeley-rpm
 Source0:    mendeley-%{version}.tar.gz
-Source1:    mendeleydesktop-1.8.4-linux-x86_64.tar.bz2
+Source1:    mendeleydesktop-1.9.1-linux-x86_64.tar.bz2
 
 Provides: libPDFNetC
 Provides: libMendeley
@@ -45,7 +45,7 @@ rm -f  ${mendeley_extract_directory}/bin/*
 cp mendeleydesktop ${mendeley_extract_directory}/bin/.
 chmod +x ${mendeley_extract_directory}/bin/mendeleydesktop
 chmod +x ${mendeley_extract_directory}/lib/libPDFNetC.so
-chmod +x ${mendeley_extract_directory}/lib/libMendeley.so.1.8.4
+chmod +x ${mendeley_extract_directory}/lib/libMendeley.so.1.9.1
 
 
 
@@ -99,6 +99,12 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Fri Jul 12 2013 Filipe Manco - 1.9.1-2
+- Binary use mendeleydesktop instead of mendelydesktop.x86_64
+
+* Fri Jul 12 2013 Filipe Manco - 1.9.1-1
+- Update to Mendeley version 1.9.1
+
 * Sun Apr 7 2013 Chris Fallin - 1.8.4-1
 - Updated to Mendeley version 1.8.4
 
