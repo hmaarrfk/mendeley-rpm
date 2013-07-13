@@ -10,15 +10,15 @@ URL:        https://github.com/hmaarrfk/mendeley-rpm
 Source0:    mendeley-%{version}.tar.gz
 Source1:    mendeleydesktop-1.9.1-linux-x86_64.tar.bz2
 
-Provides: libPDFNetC
-Provides: libMendeley
-Requires: libpng >= 1.5
-Requires: qt-x11 >= 4.8.4
-Requires: qt >= 4.8.4
-Requires: qtwebkit >= 2.2.2
-Requires: openssl >= 0.9.8
-Requires: libPDFNetC
-Requires: libMendeley
+#Provides: libPDFNetC
+#Provides: libMendeley
+#Requires: libpng >= 1.5
+#Requires: qt-x11 >= 4.8.4
+#Requires: qt >= 4.8.4
+#Requires: qtwebkit >= 2.2.2
+#Requires: openssl >= 0.9.8
+#Requires: libPDFNetC
+#Requires: libMendeley
 
 
 %description
