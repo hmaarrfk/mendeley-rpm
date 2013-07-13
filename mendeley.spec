@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -40,6 +40,10 @@ mendeley_extract_directory="${mendeley_extract_directory%.*}"
 rm -rf ${mendeley_extract_directory}/lib/qt
 rm -rf ${mendeley_extract_directory}/lib/ssl
 rm -f  ${mendeley_extract_directory}/lib/mendeleydesktop/libexec/Updater
+# rename the libexec file, makes Gnome-Shell behave better (need to find better fix for this)
+# the .* is just to ensure that it would work for the .i686 version as well, even though I have no
+# motivation to test that version. I think it is long time that people have 64 bit processors anyway....
+mv ${mendeley_extract_directory}/lib/mendeleydesktop/libexec/mendeleydesktop.* ${mendeley_extract_directory}/lib/mendeleydesktop/libexec/mendeleydesktop
 rm -rf ${mendeley_extract_directory}/lib/mendeleydesktop/plugins
 rm -f  ${mendeley_extract_directory}/bin/*
 cp mendeleydesktop ${mendeley_extract_directory}/bin/.
@@ -99,6 +103,10 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Mark Harfouche - 1.9.1-4
+- Changed the libexec name to mendeleydestop as suggested in Revision 2 but
+  added the appropriate modifications to the spec file.
+
 * Sat Jul 13 2013 Mark Harfouche - 1.9.1-3
 - Undid the modifications of the previous version
 

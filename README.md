@@ -18,13 +18,16 @@ Fedora 2013
 http://support.mendeley.com/customer/portal/questions/758741-packaging-for-fedora
 
 
-It was written by
+The first version was written by
 Mark Harfouche
 2013.01.21
 
+A few collaborators helped along the way
+Chris Fallin
+Filipe Manco
 
 Git Repository at:
 https://github.com/hmaarrfk/mendeley-rpm
 
 Get ther tarball from
-http://download.mendeley.com/linux/mendeleydesktop-1.7.1-linux-x86_64.tar.bz2
+mendeley.com
