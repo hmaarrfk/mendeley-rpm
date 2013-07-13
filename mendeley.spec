@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -39,17 +39,14 @@ mendeley_extract_directory="${mendeley_extract_directory%.*}"
 mendeley_extract_directory="${mendeley_extract_directory%.*}"
 rm -rf ${mendeley_extract_directory}/lib/qt
 rm -rf ${mendeley_extract_directory}/lib/ssl
-rm -f  ${mendeley_extract_directory}/lib/mendeleydesktop/libexec/Updater
-# rename the libexec file, makes Gnome-Shell behave better (need to find better fix for this)
-# the .* is just to ensure that it would work for the .i686 version as well, even though I have no
-# motivation to test that version. I think it is long time that people have 64 bit processors anyway....
-rm -rf ${mendeley_extract_directory}/lib/mendeleydesktop/plugins
 rm -f  ${mendeley_extract_directory}/bin/*
+# Move the executable to the correct location
+# give it the right name
+# the .* is used for this to be portable in case somebody wants to build a i686 version....
+#                                    lib/mendeleydesktop/libexec/mendeleydesktop.x86_64
+mv     ${mendeley_extract_directory}/lib/mendeleydesktop/libexec/mendeleydesktop.x86_64 ${mendeley_extract_directory}/bin/mendeleydesktop
+rm -rf ${mendeley_extract_directory}/lib/mendeleydesktop
 
-# the .desktop files are pretty bad, they need to have identical names to the wmclass of the window they create
-# it doesn't seem like you can do anything about that.
-mv ${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop ${mendeley_extract_directory}/share/applications/mendeleydesktop.x86_64.desktop
-cp mendeleydesktop ${mendeley_extract_directory}/bin/.
 chmod +x ${mendeley_extract_directory}/bin/mendeleydesktop
 chmod +x ${mendeley_extract_directory}/lib/libPDFNetC.so
 chmod +x ${mendeley_extract_directory}/lib/libMendeley.so.1.9.1
@@ -70,7 +67,7 @@ cp -R ${mendeley_extract_directory}/share/mendeleydesktop %{buildroot}%{_datadir
 cp -R ${mendeley_extract_directory}/lib/*                 %{buildroot}%{_libdir}
 cp -R ${mendeley_extract_directory}/bin/*                 %{buildroot}%{_bindir}
 
-desktop-file-install --delete-original --dir=${RPM_BUILD_ROOT}%{_datadir}/applications ./${mendeley_extract_directory}/share/applications/mendeleydesktop.x86_64.desktop
+desktop-file-install --delete-original --dir=${RPM_BUILD_ROOT}%{_datadir}/applications ./${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop
 
 %clean
 rm -rf %{buildroot}
@@ -96,8 +93,7 @@ fi
 %{_bindir}/mendeleydesktop
 %{_libdir}/libMendeley.*
 %{_libdir}/libPDFNetC.so
-%{_libdir}/mendeleydesktop
-%{_datadir}/applications/mendeleydesktop.x86_64.desktop
+%{_datadir}/applications/mendeleydesktop.desktop
 %{_defaultdocdir}/mendeleydesktop
 %{_datadir}/icons/hicolor/*/apps/mendeleydesktop.png
 %{_datadir}/mendeleydesktop
@@ -106,6 +102,10 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Mark Harfouche - 1.9.1-7
+- I dont think we need the dummy launcher, mendeley seems to run well without
+  it, so I moved the executable from libexec to bin
+
 * Sat Jul 13 2013 Mark Harfouche - 1.9.1-6
 - Changed the name of the desktopfile to reflect the correct name of the wmclass
 
