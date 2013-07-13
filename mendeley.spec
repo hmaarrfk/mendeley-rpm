@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -99,6 +99,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Mark Harfouche - 1.9.1-3
+- Undid the modifications of the previous version
+
 * Fri Jul 12 2013 Filipe Manco - 1.9.1-2
 - Binary use mendeleydesktop instead of mendelydesktop.x86_64
 
