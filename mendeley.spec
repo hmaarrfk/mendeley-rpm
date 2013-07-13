@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -10,6 +10,9 @@ URL:        https://github.com/hmaarrfk/mendeley-rpm
 Source0:    %{name}-%{version}-linux-x86_64.tar.bz2
 Source1:    README.md
 Patch0:     mendeleydesktop-desktopfile.patch
+
+# FIXME: Build also for 32bits
+ExclusiveArch: x86_64
 
 
 %description
@@ -26,22 +29,27 @@ with Mendeley.
 cp -p %SOURCE1 .
 %patch0
 
+
 %build
-# Remove unecessary files
+# Remove unecessary libs
 rm -rf lib/qt
 rm -rf lib/ssl
-rm -f  bin/*
 
-# Move binary to the proper place and rename it
-# Using .* for portability (to match also the i686 version)
-mv     lib/mendeleydesktop/libexec/mendeleydesktop.* bin/mendeleydesktop
-rm -rf lib/mendeleydesktop
+# Remove the launching script not used in this distribution
+rm -f  bin/mendeleydesktop
 
-# change them as executable so that the packager treats them as such
-# the packager consideres executable libraries as libraries the package provides
-chmod +x bin/mendeleydesktop
+# Rename binary and move it to the proper location
+mv lib/mendeleydesktop/libexec/mendeleydesktop.x86_64 bin/mendeleydesktop
+
+# Remove libexec including the Updater binary
+# Update should be done using the package manager
+rm -rf lib/mendeleydesktop/libexec
+
+# Change them as executable so that the packager treats them as such
+# The packager consideres executable libraries as libraries the package provides
 chmod +x lib/libPDFNetC.*
 chmod +x lib/libMendeley.*
+
 
 %install
 mkdir -p %{buildroot}%{_defaultdocdir}
@@ -49,7 +57,8 @@ mkdir -p %{buildroot}%{_datadir}
 mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_bindir}
 
-cp -R share/doc/*           %{buildroot}%{_defaultdocdir}
+cp -R share/doc/*           %{buildroot}%{_defaultdocdir}%{name}-%{version}
+cp -R README.md             %{buildroot}%{_defaultdocdir}%{name}-%{version}/README-DIST.md
 cp -R share/icons           %{buildroot}%{_datadir}
 cp -R share/mendeleydesktop %{buildroot}%{_datadir}
 cp -R lib/*                 %{buildroot}%{_libdir}
@@ -81,18 +90,16 @@ fi
 
 
 %files
-%doc README.md
-%{_bindir}/mendeleydesktop
-%{_libdir}/libMendeley.*
-%{_libdir}/libPDFNetC.so
-%{_datadir}/applications/mendeleydesktop.desktop
-%{_defaultdocdir}/mendeleydesktop
-%{_datadir}/icons/hicolor/*/apps/mendeleydesktop.png
-%{_datadir}/mendeleydesktop
+%{_bindir}/*
+%{_libdir}/*
+%{_datadir}/*
 
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Filipe Manco - 1.9.1-10
+- Cleanup spec file.
+
 * Sat Jul 13 2013 Filipe Manco - 1.9.1-9
 - Greatly simplify spec file.
 
