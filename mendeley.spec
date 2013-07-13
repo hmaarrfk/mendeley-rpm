@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    10%{?dist}
+Release:    11%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -39,7 +39,11 @@ rm -rf lib/ssl
 rm -f  bin/mendeleydesktop
 
 # Rename binary and move it to the proper location
-mv lib/mendeleydesktop/libexec/mendeleydesktop.x86_64 bin/mendeleydesktop
+mv     lib/mendeleydesktop/libexec/mendeleydesktop.x86_64 bin/mendeleydesktop
+
+# Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
+rm  -rf share/icons/hicolor/48x48
+rm  -rf share/icons/hicolor/64x64
 
 # Remove libexec including the Updater binary
 # Update should be done using the package manager
@@ -97,6 +101,10 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Mark Harfouche - 1.9.1-11
+- Removed the 48x48 and 64x64 icons because they looked bad (they used white
+  instead of alpha making them look horrible)
+
 * Sat Jul 13 2013 Filipe Manco - 1.9.1-10
 - Cleanup spec file.
 
