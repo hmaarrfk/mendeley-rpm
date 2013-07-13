@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    7%{?dist}
+Release:    8%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -47,9 +47,18 @@ rm -f  ${mendeley_extract_directory}/bin/*
 mv     ${mendeley_extract_directory}/lib/mendeleydesktop/libexec/mendeleydesktop.x86_64 ${mendeley_extract_directory}/bin/mendeleydesktop
 rm -rf ${mendeley_extract_directory}/lib/mendeleydesktop
 
+
+# add the required flag to the desktop file
+sed '/Exec/s|$| --unix-distro-build|' ${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop > ${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop_new
+rm ${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop
+mv ${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop_new ${mendeley_extract_directory}/share/applications/mendeleydesktop.desktop
+
+
+# change them as executable so that the packager treats them as such
+# the packager consideres executable libraries as libraries the package provides
 chmod +x ${mendeley_extract_directory}/bin/mendeleydesktop
-chmod +x ${mendeley_extract_directory}/lib/libPDFNetC.so
-chmod +x ${mendeley_extract_directory}/lib/libMendeley.so.1.9.1
+chmod +x ${mendeley_extract_directory}/lib/libPDFNetC.*
+chmod +x ${mendeley_extract_directory}/lib/libMendeley.*
 
 
 
@@ -102,6 +111,10 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Mark Harfouche - 1.9.1-8
+- Fixed the .desktop file so that it would have the option --unix-distro-build
+  at the end of the exec command
+
 * Sat Jul 13 2013 Mark Harfouche - 1.9.1-7
 - I dont think we need the dummy launcher, mendeley seems to run well without
   it, so I moved the executable from libexec to bin
