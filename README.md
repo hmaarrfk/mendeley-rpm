@@ -1,12 +1,23 @@
 mendeley-rpm
 ============
 
+About
+============
+
 This is an unofficial package designed for Fedora that packages
 Mendeley Desktop freely available from the web.
 
 It attempts to maximize the use of system libraries and to adhere to Fedora guidelines.
 
 The only files I wrote were the .spec and a fresh mendeleydesktop executable (that essentially does nothing). Therefore I won't bother putting a license on my files. The license for the files obtained from Mendeley is included as part of this install.
+
+How to install
+============
+Go to the releases in GitHub and download the appropriate rpm
+
+How to build the RPM
+============
+Download the "source" (really a binary from mendeley) and run the ./package-mendeley-rpm.sh script
 
 
 The issue of having an RPM has been raised to Mendeley in the past:
