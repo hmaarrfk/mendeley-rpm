@@ -1,7 +1,7 @@
 Name:       mendeley
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -103,6 +103,10 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Mark Harfouche - 1.9.1-5
+- Removed the explicit dependencies since I think the packager finds them
+  automatically
+
 * Sat Jul 13 2013 Mark Harfouche - 1.9.1-4
 - Changed the libexec name to mendeleydestop as suggested in Revision 2 but
   added the appropriate modifications to the spec file.
