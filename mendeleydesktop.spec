@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    12%{?dist}
+Release:    13%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -37,6 +37,9 @@ rm -rf lib/ssl
 
 # Remove the launching script not used in this distribution
 rm -f  bin/mendeleydesktop
+# and the stupid link-handler
+# TODO: emulate link handler functionality in the spec file
+rm -f  bin/install-mendeley-link-handler.sh
 
 # Rename binary and move it to the proper location
 mv     lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu} bin/mendeleydesktop
@@ -78,11 +81,17 @@ rm -rf %{buildroot}
 
 
 %post
+# Update shared libraries
+/sbin/ldconfig
+
 /usr/bin/update-desktop-database &> /dev/null || :
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %postun
+# Update shared libraries
+/sbin/ldconfig
+
 /usr/bin/update-desktop-database &> /dev/null || :
 if [ $1 -eq 0 ] ; then
     /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
@@ -101,6 +110,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sun Jul 14 2013 Mark Harfouche - 1.9.1-13
+- Added the /sbin/ldconfig lines to the %post and %postrun sections
+
 * Sat Jul 13 2013 Mark Harfouche - 1.9.1-12
 - Spec file should be i686 compatible
 
