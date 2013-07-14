@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    14%{?dist}
+Release:    15%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -43,6 +43,14 @@ rm -f  bin/install-mendeley-link-handler.sh
 
 # Rename binary and move it to the proper location
 mv     lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu} bin/mendeleydesktop
+
+# sensitive line
+# This line chnages the execution string
+# from install-mendeley-link-handler.sh
+# to simply echo nothing
+# so that mendeleydesktop stops trying to execute the script
+# \d0 is the null termination to terminate the string :D
+sed -i 's/install-mendeley/echo\d0ll-mendeley/' bin/mendeleydesktop
 
 # Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
 rm  -rf share/icons/hicolor/48x48
@@ -111,6 +119,10 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sun Jul 14 2013 Mark Harfouche - 1.9.1-15
+- Changed the mendeley binary to inhibit the execution of the link-handler
+  script.
+
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-14
 - Fixed the location of the documentation
 
