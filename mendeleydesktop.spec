@@ -1,18 +1,18 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    11%{?dist}
+Release:    12%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
 License:    Proprietary
 URL:        https://github.com/hmaarrfk/mendeley-rpm
-Source0:    %{name}-%{version}-linux-x86_64.tar.bz2
+Source0:    %{name}-%{version}-linux-%{_target_cpu}.tar.bz2
 Source1:    README.md
 Patch0:     mendeleydesktop-desktopfile.patch
 
 # FIXME: Build also for 32bits
-ExclusiveArch: x86_64
+ExclusiveArch: x86_64 i486
 
 
 %description
@@ -25,7 +25,7 @@ with Mendeley.
 
 
 %prep
-%setup -q -n %{name}-%{version}-linux-x86_64
+%setup -q -n %{name}-%{version}-linux-%{_target_cpu}
 cp -p %SOURCE1 .
 %patch0
 
@@ -39,7 +39,7 @@ rm -rf lib/ssl
 rm -f  bin/mendeleydesktop
 
 # Rename binary and move it to the proper location
-mv     lib/mendeleydesktop/libexec/mendeleydesktop.x86_64 bin/mendeleydesktop
+mv     lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu} bin/mendeleydesktop
 
 # Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
 rm  -rf share/icons/hicolor/48x48
@@ -101,6 +101,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sat Jul 13 2013 Mark Harfouche - 1.9.1-12
+- Spec file should be i686 compatible
+
 * Sat Jul 13 2013 Mark Harfouche - 1.9.1-11
 - Removed the 48x48 and 64x64 icons because they looked bad (they used white
   instead of alpha making them look horrible)
