@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    17%{?dist}
+Release:    18%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -28,13 +28,10 @@ with Mendeley.
 cp -p %SOURCE1 .
 %patch0
 ls -lah
+
 # sensitive line
-# This line chnages the execution string
-# from install-mendeley-link-handler.sh
-# to simply echo nothing
-# so that mendeleydesktop stops trying to execute the script
-# \d0 is the null termination to terminate the string :D
-sed -i 's/install-mendeley/echo\d0ll-mendeley/' lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu}
+# rather unecessary and may cause things to break in future versions
+# sed -i 's/install-mendeley/echo\d0ll-mendeley/' lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu}
 
 
 
@@ -122,6 +119,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sun Jul 14 2013 Mark Harfouche - 1.9.1-18
+- Commented out the sensitive line
+
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-17
 - Moved the modification of the binary to the %prep section like the other patch
 
