@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    16%{?dist}
+Release:    17%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -11,7 +11,6 @@ Source0:    %{name}-%{version}-linux-%{_target_cpu}.tar.bz2
 Source1:    README.md
 Patch0:     mendeleydesktop-desktopfile.patch
 
-# FIXME: Build also for 32bits
 ExclusiveArch: x86_64 i486
 
 
@@ -28,6 +27,15 @@ with Mendeley.
 %setup -q -n %{name}-%{version}-linux-%{_target_cpu}
 cp -p %SOURCE1 .
 %patch0
+ls -lah
+# sensitive line
+# This line chnages the execution string
+# from install-mendeley-link-handler.sh
+# to simply echo nothing
+# so that mendeleydesktop stops trying to execute the script
+# \d0 is the null termination to terminate the string :D
+sed -i 's/install-mendeley/echo\d0ll-mendeley/' lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu}
+
 
 
 %build
@@ -43,14 +51,6 @@ rm -f  bin/install-mendeley-link-handler.sh
 
 # Rename binary and move it to the proper location
 mv     lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu} bin/mendeleydesktop
-
-# sensitive line
-# This line chnages the execution string
-# from install-mendeley-link-handler.sh
-# to simply echo nothing
-# so that mendeleydesktop stops trying to execute the script
-# \d0 is the null termination to terminate the string :D
-sed -i 's/install-mendeley/echo\d0ll-mendeley/' bin/mendeleydesktop
 
 # Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
 rm  -rf share/icons/hicolor/48x48
@@ -122,6 +122,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sun Jul 14 2013 Mark Harfouche - 1.9.1-17
+- Moved the modification of the binary to the %prep section like the other patch
+
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-16
 - Touched up the files section so as not to include other programs directories
 
