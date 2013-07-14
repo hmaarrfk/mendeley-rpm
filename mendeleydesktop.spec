@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    15%{?dist}
+Release:    16%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -112,13 +112,19 @@ fi
 
 
 %files
+%doc %{_defaultdocdir}/%{name}-%{version}
 %{_bindir}/*
 %{_libdir}/*
-%{_datadir}/*
+%{_datadir}/%{name}
+%{_datadir}/applications/*
+%{_datadir}/icons/hicolor/*/apps/*
 
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sun Jul 14 2013 Mark Harfouche - 1.9.1-16
+- Touched up the files section so as not to include other programs directories
+
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-15
 - Changed the mendeley binary to inhibit the execution of the link-handler
   script.
