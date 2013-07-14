@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.9.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    13%{?dist}
+Release:    14%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 #Group:
@@ -60,12 +60,13 @@ chmod +x lib/libMendeley.*
 
 %install
 mkdir -p %{buildroot}%{_defaultdocdir}
+mkdir -p %{buildroot}%{_defaultdocdir}/%{name}-%{version}
 mkdir -p %{buildroot}%{_datadir}
 mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_bindir}
 
-cp -R share/doc/*           %{buildroot}%{_defaultdocdir}%{name}-%{version}
-cp -R README.md             %{buildroot}%{_defaultdocdir}%{name}-%{version}/README-DIST.md
+cp -R share/doc/%{name}/*    %{buildroot}%{_defaultdocdir}/%{name}-%{version}
+cp -R README.md             %{buildroot}%{_defaultdocdir}/%{name}-%{version}/README-DIST.md
 cp -R share/icons           %{buildroot}%{_datadir}
 cp -R share/mendeleydesktop %{buildroot}%{_datadir}
 cp -R lib/*                 %{buildroot}%{_libdir}
@@ -110,6 +111,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sun Jul 14 2013 Mark Harfouche - 1.9.1-14
+- Fixed the location of the documentation
+
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-13
 - Added the /sbin/ldconfig lines to the %post and %postrun sections
 

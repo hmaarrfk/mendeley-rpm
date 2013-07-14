@@ -34,7 +34,9 @@ Mark Harfouche
 2013.01.21
 
 A few collaborators helped along the way
+
 Chris Fallin
+
 Filipe Manco
 
 Git Repository at:
@@ -42,3 +44,29 @@ https://github.com/hmaarrfk/mendeley-rpm
 
 Get ther tarball from
 mendeley.com
+
+Devellopment Notes
+============
+
+It might be instructive to look at what was done by the Gentoo community.
+http://gentoo-overlays.zugaina.org/funtoo/sci-misc.html.en#mendeleydesktop
+
+Looking at their .ebuild script (seems to be the equivalent of a spec file)
+http://data.gpo.zugaina.org/funtoo/sci-misc/mendeleydesktop/mendeleydesktop-1.9.1.ebuild
+they have a different strategy to deal with the system QT vs bundled qt problem.
+
+
+  # force use of system Qt libraries
+  sed -i "s:sys\.argv\.count(\"--force-system-qt\") > 0:True:" \
+    bin/mendeleydesktop || die "failed to patch startup script"
+
+  # fix library paths
+  sed -i \
+    -e "s:lib/mendeleydesktop:$(get_libdir)/mendeleydesktop:g" \
+    -e "s:MENDELEY_BASE_PATH + \"/lib/\":MENDELEY_BASE_PATH + \"/$(get_libdir)/\":g" \
+    bin/mendeleydesktop || die "failed to patch library path"
+
+Honestly, I think we might be doing it better since we don't install into /opt.
+I always feel like installing into /opt is a hack.
+
+Then again, they don't like packaging noobs like we are :D.
