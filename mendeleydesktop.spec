@@ -1,5 +1,5 @@
 Name:       mendeleydesktop
-Version:    1.9.2
+Version:    1.10.1
 # Make sure to use rpmdev-bumpspec to update this
 Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
@@ -119,6 +119,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Wed Oct 9 2013 Mark Harfouche - 1.10.1-1
+- Updated to Mendeley 1.10.1
+
 * Wed Aug 14 2013 Mark Harfouche - 1.9.2-1
 - Updated to Mendeley 1.9.2
 
