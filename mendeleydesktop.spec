@@ -1,5 +1,5 @@
 Name:       mendeleydesktop
-Version:    1.10.1
+Version:    1.11
 # Make sure to use rpmdev-bumpspec to update this
 Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
