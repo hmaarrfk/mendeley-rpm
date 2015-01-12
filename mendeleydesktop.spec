@@ -1,5 +1,5 @@
 Name:       mendeleydesktop
-Version:    1.12.1
+Version:    1.12.4
 # Make sure to use rpmdev-bumpspec to update this
 Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
@@ -119,6 +119,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Mon Jan 12 2015 makerpm - 1.12.4-1
+- Updated to Mendeley 1.12.4
+
 * Tue Sep 02 2014 makerpm - 1.12.1-1
 - Updated to Mendeley 1.12.1
 
