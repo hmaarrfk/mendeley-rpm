@@ -1,13 +1,19 @@
 Name:       mendeleydesktop
-Version:    1.12.4
+Version:    1.13.4
 # Make sure to use rpmdev-bumpspec to update this
 Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
+%ifarch %{ix86}
+%define pkg_arch i486
+%else
+%define pkg_arch %{_target_cpu}
+%endif
+
 #Group:
 License:    Proprietary
 URL:        https://github.com/hmaarrfk/mendeley-rpm
-Source0:    %{name}-%{version}-linux-%{_target_cpu}.tar.bz2
+Source0:    %{name}-%{version}-linux-%{pkg_arch}.tar.bz2
 Source1:    README.md
 Patch0:     mendeleydesktop-desktopfile.patch
 
@@ -24,7 +30,7 @@ with Mendeley.
 
 
 %prep
-%setup -q -n %{name}-%{version}-linux-%{_target_cpu}
+%setup -q -n %{name}-%{version}-linux-%{pkg_arch}
 cp -p %SOURCE1 .
 %patch0
 ls -lah
@@ -39,6 +45,7 @@ ls -lah
 # Remove unecessary libs
 rm -rf lib/qt
 rm -rf lib/ssl
+rm -rf lib/cpp
 
 # Remove the launching script not used in this distribution
 rm -f  bin/mendeleydesktop
@@ -119,6 +126,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Mon Feb 23 2015 Alexander Korsunsky <fat.lobyte9@gmail.com> - 1.13.4-1
+- Updated to Mendeley 1.13.4
+
 * Mon Jan 12 2015 makerpm - 1.12.4-1
 - Updated to Mendeley 1.12.4
 
