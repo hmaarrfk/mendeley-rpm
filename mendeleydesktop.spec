@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
 Version:    1.13.4
 # Make sure to use rpmdev-bumpspec to update this
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 %ifarch %{ix86}
@@ -11,13 +11,15 @@ Summary:    Unofficial Mendeley RPM package.
 %endif
 
 #Group:
-License:    Proprietary
-URL:        https://github.com/hmaarrfk/mendeley-rpm
-Source0:    %{name}-%{version}-linux-%{pkg_arch}.tar.bz2
-Source1:    README.md
-Patch0:     mendeleydesktop-desktopfile.patch
+License:       Proprietary
+URL:           https://github.com/hmaarrfk/mendeley-rpm
+Source0:       README.md
+Source1:       %{name}-%{version}-linux-i486.tar.bz2
+Source2:       %{name}-%{version}-linux-x86_64.tar.bz2
+Patch0:        mendeleydesktop-desktopfile.patch
+BuildRequires: desktop-file-utils
 
-ExclusiveArch: x86_64 i486
+ExclusiveArch: x86_64 %{ix86}
 
 
 %description
@@ -30,8 +32,8 @@ with Mendeley.
 
 
 %prep
-%setup -q -n %{name}-%{version}-linux-%{pkg_arch}
-cp -p %SOURCE1 .
+%setup -q -n %{name}-%{version}-linux-%{pkg_arch} -T -b 1 -b 2
+cp -p %SOURCE0 .
 %patch0
 ls -lah
 
@@ -54,7 +56,7 @@ rm -f  bin/mendeleydesktop
 rm -f  bin/install-mendeley-link-handler.sh
 
 # Rename binary and move it to the proper location
-mv     lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu} bin/mendeleydesktop
+mv     lib/mendeleydesktop/libexec/mendeleydesktop.%{pkg_arch} bin/mendeleydesktop
 
 # Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
 rm  -rf share/icons/hicolor/48x48
@@ -126,6 +128,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Wed Mar 04 2015 Alexander Korsunsky <fat.lobyte9@gmail.com> - 1.13.4-2
+- Allow building in Mock
+
 * Mon Feb 23 2015 Alexander Korsunsky <fat.lobyte9@gmail.com> - 1.13.4-1
 - Updated to Mendeley 1.13.4
 
