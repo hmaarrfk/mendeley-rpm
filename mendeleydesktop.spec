@@ -150,7 +150,7 @@ fi
 - Commented out the sensitive line
 
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-17
-- Moved the modification of the binary to the %prep section like the other patch
+- Moved the modification of the binary to the prep section like the other patch
 
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-16
 - Touched up the files section so as not to include other programs directories
