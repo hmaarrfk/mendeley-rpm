@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
-Version:    1.13.4
+Version:    1.13.6
 # Make sure to use rpmdev-bumpspec to update this
-Release:    2%{?dist}
+Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 %ifarch %{ix86}
@@ -128,16 +128,19 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Tue Mar 31 2015 Mark Harfouche - 1.13.6-1
+- Updated to Mendeley 1.13.6
+
 * Wed Mar 04 2015 Alexander Korsunsky <fat.lobyte9@gmail.com> - 1.13.4-2
 - Allow building in Mock
 
 * Mon Feb 23 2015 Alexander Korsunsky <fat.lobyte9@gmail.com> - 1.13.4-1
 - Updated to Mendeley 1.13.4
 
-* Mon Jan 12 2015 makerpm - 1.12.4-1
+* Mon Jan 12 2015 Mark Harfouche - 1.12.4-1
 - Updated to Mendeley 1.12.4
 
-* Tue Sep 02 2014 makerpm - 1.12.1-1
+* Tue Sep 02 2014 Mark Harfouche - 1.12.1-1
 - Updated to Mendeley 1.12.1
 
 * Wed Oct 9 2013 Mark Harfouche - 1.10.1-1
