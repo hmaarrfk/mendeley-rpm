@@ -13,12 +13,15 @@ The only files I wrote were the .spec and a fresh mendeleydesktop executable (th
 
 How to install
 ============
-Go to the releases in GitHub and download the appropriate rpm
+Easy way:
+https://copr.fedoraproject.org/coprs/hmaarrfk/mendeleydesktop/
+
+Hard way: Build the RPM yourself.
 
 How to build the RPM
 ============
 Download the "source" (really a binary from mendeley) and run the ./package-mendeley-rpm.sh script
-
+Then use mock on the source rpm.
 
 The issue of having an RPM has been raised to Mendeley in the past:
 General Linux 2012
