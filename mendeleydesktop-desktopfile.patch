@@ -4,8 +4,8 @@
  Name=Mendeley Desktop
  GenericName=Research Paper Manager
  Comment=Mendeley Desktop is software for managing and sharing research papers
--Exec=mendeleydesktop
-+Exec=mendeleydesktop --unix-distro-build
+-Exec=mendeleydesktop %f
++Exec=mendeleydesktop --unix-distro-build %f
  Icon=mendeleydesktop
  Terminal=false
  Type=Application
