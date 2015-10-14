@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
-Version:    1.14
+Version:    1.15
 # Make sure to use rpmdev-bumpspec to update this
-Release:    2%{?dist}
+Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
 
 %ifarch %{ix86}
@@ -128,6 +128,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Wed Oct 14 2015 Mark Harfouche <mark.harfouche@gmail.com> - 1.15
+- Updated to Mendeley 1.14
+
 * Wed Jul 08 2015 Mark Harfouche <mark.harfouche@gmail.com> - 1.14-2
 - modified the patch, they changed the exec string
 
