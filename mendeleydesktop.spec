@@ -1,5 +1,5 @@
 Name:       mendeleydesktop
-Version:    1.15.3
+Version:    1.16.1
 # Make sure to use rpmdev-bumpspec to update this
 Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package.
@@ -14,8 +14,8 @@ Summary:    Unofficial Mendeley RPM package.
 License:       Proprietary
 URL:           https://github.com/hmaarrfk/mendeley-rpm
 Source0:       README.md
-Source1:       %{name}-%{version}-linux-i486.tar.bz2
-Source2:       %{name}-%{version}-linux-x86_64.tar.bz2
+Source1:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-i486.tar.bz2
+Source2:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
 Patch0:        mendeleydesktop-desktopfile.patch
 BuildRequires: desktop-file-utils
 
@@ -128,6 +128,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Wed Apr 6 2016 Mark Harfouche <mark.harfouche@gmail.com> - 1.16.1
+- Updated to Mendeley 1.16.1
+
 * Mon Feb 22 2016 Mark Harfouche <mark.harfouche@gmail.com> - 1.15.3
 - Updated to Mendeley 1.15.3
 
