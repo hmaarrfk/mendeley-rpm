@@ -1,8 +1,8 @@
 Name:       mendeleydesktop
 Version:    1.16.1
 # Make sure to use rpmdev-bumpspec to update this
-Release:    1%{?dist}
-Summary:    Unofficial Mendeley RPM package.
+Release:    2%{?dist}
+Summary:    Unofficial Mendeley RPM package
 
 %ifarch %{ix86}
 %define pkg_arch i486
@@ -28,6 +28,12 @@ on the Mendeley website and attempts to make use
 of system libraries instead of the ones packaged
 with Mendeley.
 
+%package devel
+Summary: Development files for mendeleydesktop
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+%description devel
+Development files for mendeleydesktop.
+
 %global debug_package %{nil}
 
 
@@ -39,7 +45,7 @@ ls -lah
 
 # sensitive line
 # rather unecessary and may cause things to break in future versions
-# sed -i 's/install-mendeley/echo\d0ll-mendeley/' lib/mendeleydesktop/libexec/mendeleydesktop.%{_target_cpu}
+# sed -i 's/install-mendeley/echo\d0ll-mendeley/' lib/mendeleydesktop/libexec/mendeleydesktop.%{ _target_cpu }
 
 
 
@@ -120,14 +126,22 @@ fi
 %files
 %doc %{_defaultdocdir}/%{name}-%{version}
 %{_bindir}/*
-%{_libdir}/*
+%{_libdir}/libPDFNetC.so
+%{_libdir}/*.so.*
+%{_libdir}/mendeleydesktop
 %{_datadir}/%{name}
 %{_datadir}/applications/*
 %{_datadir}/icons/hicolor/*/apps/*
 
+%files devel
+%{_libdir}/libMendeley.so
+
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Mon Apr 25 2016 Mark Harfouche <mark.harfouche@gmail.com> - 1.16.1-2
+- More compliant with rpmlint
+
 * Wed Apr 6 2016 Mark Harfouche <mark.harfouche@gmail.com> - 1.16.1
 - Updated to Mendeley 1.16.1
 
@@ -187,7 +201,7 @@ fi
 - Fixed the location of the documentation
 
 * Sun Jul 14 2013 Mark Harfouche - 1.9.1-13
-- Added the /sbin/ldconfig lines to the %post and %postrun sections
+- Added the /sbin/ldconfig lines to the post and postrun sections
 
 * Sat Jul 13 2013 Mark Harfouche - 1.9.1-12
 - Spec file should be i686 compatible
