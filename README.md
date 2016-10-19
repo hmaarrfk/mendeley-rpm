@@ -73,3 +73,15 @@ Honestly, I think we might be doing it better since we don't install into /opt.
 I always feel like installing into /opt is a hack.
 
 Then again, they don't like packaging noobs like we are :D.
+
+
+Packaging Situation
+============
+At one point in time, this package was hosted on COPR. This broke their guidelines so I had to remove it. 
+
+I was trying to upload it to rpmfusion but hit a small snag that I don't particularly have time to solve.
+If you want to, you can merge Dominik's spec file with this one, add both of you to the author list (or at least credit Dominik for his good work) and revive the issue on the bug request below.
+
+https://bugzilla.rpmfusion.org/show_bug.cgi?id=4041
+
+Since Mendeley doesn't update too often, manually downloading the RPM didn't seem like a bad solution.
