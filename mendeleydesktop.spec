@@ -1,7 +1,7 @@
 Name:       mendeleydesktop
-Version:    1.16.1
+Version:    1.17
 # Make sure to use rpmdev-bumpspec to update this
-Release:    2%{?dist}
+Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package
 
 %ifarch %{ix86}
@@ -139,6 +139,9 @@ fi
 
 # Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Tue Oct 18 2016 Mark Harfouche <mark.harfouche@gmail.com> - 1.17
+- Updated to Mendeley 1.17
+
 * Mon Apr 25 2016 Mark Harfouche <mark.harfouche@gmail.com> - 1.16.1-2
 - More compliant with rpmlint
 
