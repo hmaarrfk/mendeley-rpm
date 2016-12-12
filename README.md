@@ -13,10 +13,15 @@ The only files I wrote were the .spec and a fresh mendeleydesktop executable (th
 
 How to install
 ============
-Easy way:
-https://copr.fedoraproject.org/coprs/hmaarrfk/mendeleydesktop/
-
+Easy way: https://github.com/hmaarrfk/mendeley-rpm/releases
 Hard way: Build the RPM yourself.
+
+You need to run this line in a terminal so that qt5 finds the right plugin, for Mendeley 1.17 and above: 
+```sh
+sudo ln -sf /usr/lib64/qt5/plugins/platforms/ /usr/bin/platforms
+```
+~~Easy way: https://copr.fedoraproject.org/coprs/hmaarrfk/mendeleydesktop/~~
+We cannot host this on COPR since it is not open source software.
 
 How to build the RPM
 ============
