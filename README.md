@@ -53,7 +53,7 @@ https://github.com/hmaarrfk/mendeley-rpm
 Get ther tarball from
 mendeley.com
 
-Devellopment Notes
+Development Notes
 ============
 
 It might be instructive to look at what was done by the Gentoo community.
