@@ -1,6 +1,5 @@
 Name:       mendeleydesktop
-Version:    1.17
-# Make sure to use rpmdev-bumpspec to update this
+Version:    1.17.6
 Release:    1%{?dist}
 Summary:    Unofficial Mendeley RPM package
 
@@ -43,40 +42,40 @@ cp -p %SOURCE0 .
 %patch0
 ls -lah
 
-# sensitive line
-# rather unecessary and may cause things to break in future versions
-# sed -i 's/install-mendeley/echo\d0ll-mendeley/' lib/mendeleydesktop/libexec/mendeleydesktop.%{ _target_cpu }
-
-
 
 %build
+# TODO: emulate link handler functionality in the spec file
+
+# Rename binary and move it to the proper location
+mkdir libexec
+mv    lib/mendeleydesktop/libexec/%{name}.%{pkg_arch} libexec/%{name}
+
+
 # Remove unecessary libs
 rm -rf lib/qt
 rm -rf lib/ssl
 rm -rf lib/cpp
+rm -rf lib/mendeleydesktop
+rm -rf bin/*
 
-# Remove the launching script not used in this distribution
-rm -f  bin/mendeleydesktop
-# and the stupid link-handler
-# TODO: emulate link handler functionality in the spec file
-rm -f  bin/install-mendeley-link-handler.sh
-
-# Rename binary and move it to the proper location
-mv     lib/mendeleydesktop/libexec/mendeleydesktop.%{pkg_arch} bin/mendeleydesktop
+# create a new Launcher
+# seems like the executable is looking for this variable
+# so I had to set it.
+cat > bin/%{name} <<EOF
+#!/bin/sh
+export MENDELEY_BUNDLED_QT_PLUGIN_PATH=%{_libdir}/qt5/plugins
+%{_libexecdir}/%{name}
+EOF
+chmod +x bin/%{name}
 
 # Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
 rm  -rf share/icons/hicolor/48x48
 rm  -rf share/icons/hicolor/64x64
 
-# Remove libexec including the Updater binary
-# Update should be done using the package manager
-rm -rf lib/mendeleydesktop/libexec
-
 # Change them as executable so that the packager treats them as such
 # The packager consideres executable libraries as libraries the package provides
 chmod +x lib/libPDFNetC.*
 chmod +x lib/libMendeley.*
-
 
 %install
 mkdir -p %{buildroot}%{_defaultdocdir}
@@ -84,18 +83,17 @@ mkdir -p %{buildroot}%{_defaultdocdir}/%{name}-%{version}
 mkdir -p %{buildroot}%{_datadir}
 mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_bindir}
+mkdir -p %{buildroot}%{_libexecdir}
 
 cp -R share/doc/%{name}/*    %{buildroot}%{_defaultdocdir}/%{name}-%{version}
-cp -R README.md             %{buildroot}%{_defaultdocdir}/%{name}-%{version}/README-DIST.md
 cp -R share/icons           %{buildroot}%{_datadir}
 cp -R share/mendeleydesktop %{buildroot}%{_datadir}
 cp -R lib/*                 %{buildroot}%{_libdir}
-cp -R bin/*                 %{buildroot}%{_bindir}
+install README.md             %{buildroot}%{_defaultdocdir}/%{name}-%{version}/README-DIST.md
+install bin/%{name}                 %{buildroot}%{_bindir}/%{name}
+install libexec/%{name}     %{buildroot}%{_libexecdir}/%{name}
 
-desktop-file-install --delete-original          \
---dir=${RPM_BUILD_ROOT}%{_datadir}/applications \
-share/applications/mendeleydesktop.desktop
-
+desktop-file-install --delete-original  --dir=${RPM_BUILD_ROOT}%{_datadir}/applications share/applications/%{name}.desktop
 
 %clean
 rm -rf %{buildroot}
@@ -128,10 +126,10 @@ fi
 %{_bindir}/*
 %{_libdir}/libPDFNetC.so
 %{_libdir}/*.so.*
-%{_libdir}/mendeleydesktop
 %{_datadir}/%{name}
 %{_datadir}/applications/*
 %{_datadir}/icons/hicolor/*/apps/*
+%{_libexecdir}/%{name}
 
 %files devel
 %{_libdir}/libMendeley.so
