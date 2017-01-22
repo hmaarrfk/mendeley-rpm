@@ -14,16 +14,23 @@ The only files I wrote were the .spec and a fresh mendeleydesktop executable (th
 How to install
 ============
 Easy way: https://github.com/hmaarrfk/mendeley-rpm/releases
-Hard way: Build the RPM yourself.
 
-You need to run this line in a terminal so that qt5 finds the right plugin, for Mendeley 1.17 and above: 
+Hard way: Build the RPM yourself.
+1. Clone
+2. `make`
+3. Run `mock` with the generated `srpm`
+
+
+~~
+You need to run this line in a terminal so that qt5 finds the right plugin, for Mendeley 1.17 and above:
 ```sh
 sudo ln -sf /usr/lib64/qt5/plugins/platforms/ /usr/bin/platforms
 ```
+~~
 ~~Easy way: https://copr.fedoraproject.org/coprs/hmaarrfk/mendeleydesktop/~~
 We cannot host this on COPR since it is not open source software.
 
-How to build the RPM
+Licensing issues
 ============
 Download the "source" (really a binary from mendeley) and run the ./package-mendeley-rpm.sh script
 Then use mock on the source rpm.
@@ -59,30 +66,14 @@ Development Notes
 It might be instructive to look at what was done by the Gentoo community.
 http://gentoo-overlays.zugaina.org/funtoo/sci-misc.html.en#mendeleydesktop
 
-Looking at their .ebuild script (seems to be the equivalent of a spec file)
-http://data.gpo.zugaina.org/funtoo/sci-misc/mendeleydesktop/mendeleydesktop-1.9.1.ebuild
-they have a different strategy to deal with the system QT vs bundled qt problem.
-
-
-  # force use of system Qt libraries
-  sed -i "s:sys\.argv\.count(\"--force-system-qt\") > 0:True:" \
-    bin/mendeleydesktop || die "failed to patch startup script"
-
-  # fix library paths
-  sed -i \
-    -e "s:lib/mendeleydesktop:$(get_libdir)/mendeleydesktop:g" \
-    -e "s:MENDELEY_BASE_PATH + \"/lib/\":MENDELEY_BASE_PATH + \"/$(get_libdir)/\":g" \
-    bin/mendeleydesktop || die "failed to patch library path"
-
 Honestly, I think we might be doing it better since we don't install into /opt.
 I always feel like installing into /opt is a hack.
 
-Then again, they don't like packaging noobs like we are :D.
-
+Then again, they are not like packaging noobs like we are :D.
 
 Packaging Situation
 ============
-At one point in time, this package was hosted on COPR. This broke their guidelines so I had to remove it. 
+At one point in time, this package was hosted on COPR. This broke their guidelines so I had to remove it.
 
 I was trying to upload it to rpmfusion but hit a small snag that I don't particularly have time to solve.
 If you want to, you can merge Dominik's spec file with this one, add both of you to the author list (or at least credit Dominik for his good work) and revive the issue on the bug request below.
