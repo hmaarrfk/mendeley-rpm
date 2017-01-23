@@ -1,31 +1,72 @@
 Name:       mendeleydesktop
 Version:    1.17.6
-Release:    1%{?dist}
-Summary:    Unofficial Mendeley RPM package
+Release:    2%{?dist}
+Summary:    Academic reference management software for researchers
 
-%ifarch %{ix86}
-%define pkg_arch i486
-%else
-%define pkg_arch %{_target_cpu}
-%endif
 
 #Group:
-License:       Proprietary
-URL:           https://github.com/hmaarrfk/mendeley-rpm
-Source0:       README.md
+License:       LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
+URL:           http://www.mendeley.com/
 Source1:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-i486.tar.bz2
 Source2:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
 Patch0:        mendeleydesktop-desktopfile.patch
-BuildRequires: desktop-file-utils
 
-ExclusiveArch: x86_64 %{ix86}
+
+# Bundled Libraries
+# share/mendeleydesktop/citationLocales CC-BY-SA 3.0 -> https://github.com/citation-style-language/locales
+# share/mendeleydesktop/citationStyles-1.0 CC-BY-SA 3.0 -> https://github.com/citation-style-language/styles
+Provides: bundled(citation-style-language)
+# share/mendeleydesktop/citeproc-js/external/{citeproc,xmldom}.js CPAL/AGPLv3 -> https://bitbucket.org/fbennett/citeproc-js/wiki/Home
+Provides: bundled(citeproc-js)
+# share/mendeleydesktop/citeproc-js/external/md5.js BSD -> https://code.google.com/p/crypto-js/
+Provides: bundled(crypto-js) = 3.1.2
+# share/mendeleydesktop/citeproc-js/external/underscore-min.js MIT -> http://underscorejs.org
+Provides: bundled(underscore-js) = 1.7.0
+# share/mendeleydesktop/webContent/external/js/ICanHaz.js MIT -> http://icanhazjs.com
+Provides: bundled(ICanHaz.js) = 0.10
+# share/mendeleydesktop/webContent/external/js/jquery-1.9.0.min.js MIT -> https://jquery.com/
+Provides: bundled(js-jquery1) = 1.9.0
+# share/mendeleydesktop/webContent/external/js/jquery.dropdown.* MIT -> http://labs.abeautifulsite.net/jquery-dropdown/
+Provides: bundled(js-jquery-dropdown) = 1.9.0
+# share/mendeleydesktop/webContent/external/js/jquery.ioslist.js MIT -> https://brianhadaway.github.io/iOSList/
+Provides: bundled(js-jquery-ioslist) = 1.9.0
+# share/mendeleydesktop/webContent/external/js/throbber.js MIT -> https://aino.github.io/throbber.js/
+Provides: bundled(throbber.js) = 0.1
+# share/mendeleydesktop/citeproc-js/test/external/qunit-1.15.0.* MIT -> https://qunitjs.com/
+Provides: bundled(qunit.js) = 1.15.0
+# https://www.pdftron.com/pdfnet/downloads.html
+Provides: bundled(PDFNetC) = 5.1
+
+
+%ifarch %{ix86}
+BuildArch: i486
+%endif
+ExclusiveArch: i486 x86_64
+
+BuildRequires: desktop-file-utils
+Requires: hicolor-icon-theme
 
 
 %description
-This is a repackaged version of what is available
-on the Mendeley website and attempts to make use
-of system libraries instead of the ones packaged
-with Mendeley.
+Mendeley is a combination of a desktop application and a website which
+helps you manage, share and discover both content and contacts in research.
+
+Our software, Mendeley Desktop, offers you:
+* Automatic extraction of document details (authors, title, journal etc.)
+  from academic papers into a library database, which saves you a lot of
+  manual typing! As more people use Mendeley, the quality of the data
+  extraction improves.
+* Super-efficient management of your papers: "Live" full-text search across
+  all your papers – the results start to appear as you type! Mendeley
+  Desktop also lets you filter your library by authors, journals or keywords.
+  You can also use document collections, notes and tags to organize your
+  knowledge, and export the document details in different citation styles.
+* Sharing and synchronisation of your library (or parts of it) with
+  selected colleagues. This is perfect for jointly managing all the papers in
+  your lab!
+* More great features: A plug-in for citing your articles in Microsoft
+  Word, OCR (image-to-text conversion, so you can full-text search all your
+  scanned PDFs) and lots more new features being worked upon.
 
 %package devel
 Summary: Development files for mendeleydesktop
@@ -33,32 +74,33 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 %description devel
 Development files for mendeleydesktop.
 
+%package -n libreoffice-Mendeley
+Summary: Insert citations and generate bibliography from Mendeley
+License: ECL 1.0
+Requires: %{name}%{?_isa} = %{version}-%{release}
+Requires: libreoffice-core
+
+%description -n libreoffice-Mendeley
+This extension provides integration between Mendeley Desktop and
+OpenOffice/LibreOffice, providing the ability to insert citations
+from your Mendeley library into OpenOffice documents and generated
+a bibliography automatically.
+
 %global debug_package %{nil}
+# The location of the installed extension
+%global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 
 %prep
-%setup -q -n %{name}-%{version}-linux-%{pkg_arch} -T -b 1 -b 2
-cp -p %SOURCE0 .
+%ifarch i486
+%setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
+%else
+%setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 2
+%endif
 %patch0
-ls -lah
 
 
 %build
-# TODO: emulate link handler functionality in the spec file
-
-# Rename binary and move it to the proper location
-mkdir libexec
-mv    lib/mendeleydesktop/libexec/%{name}.%{pkg_arch} libexec/%{name}
-
-
-# Remove unecessary libs
-rm -rf lib/qt
-rm -rf lib/ssl
-rm -rf lib/cpp
-rm -rf lib/mendeleydesktop
-rm -rf bin/*
-
-# create a new Launcher
 # seems like the executable is looking for this variable
 # so I had to set it.
 cat > bin/%{name} <<EOF
@@ -72,71 +114,72 @@ chmod +x bin/%{name}
 rm  -rf share/icons/hicolor/48x48
 rm  -rf share/icons/hicolor/64x64
 
-# Change them as executable so that the packager treats them as such
-# The packager consideres executable libraries as libraries the package provides
-chmod +x lib/libPDFNetC.*
-chmod +x lib/libMendeley.*
-
 %install
-mkdir -p %{buildroot}%{_defaultdocdir}
-mkdir -p %{buildroot}%{_defaultdocdir}/%{name}-%{version}
-mkdir -p %{buildroot}%{_datadir}
-mkdir -p %{buildroot}%{_libdir}
-mkdir -p %{buildroot}%{_bindir}
-mkdir -p %{buildroot}%{_libexecdir}
+mkdir -p %{buildroot}{%{_datadir},%{_libdir}}
+cp -pr share/mendeleydesktop %{buildroot}%{_datadir}
 
-cp -R share/doc/%{name}/*    %{buildroot}%{_defaultdocdir}/%{name}-%{version}
-cp -R share/icons           %{buildroot}%{_datadir}
-cp -R share/mendeleydesktop %{buildroot}%{_datadir}
-cp -R lib/*                 %{buildroot}%{_libdir}
-install README.md             %{buildroot}%{_defaultdocdir}/%{name}-%{version}/README-DIST.md
-install bin/%{name}                 %{buildroot}%{_bindir}/%{name}
-install libexec/%{name}     %{buildroot}%{_libexecdir}/%{name}
+for s in `ls share/icons/hicolor` ; do
+  install -Dpm644 {share/icons/hicolor,%{buildroot}%{_datadir}/icons/hicolor}/${s}/apps/mendeleydesktop.png
+done
+
+install -pm755 lib/lib{Mendeley.so,Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}
+install -Dpm755 bin/%{name}                 %{buildroot}%{_bindir}/%{name}
+install -Dpm755 lib/mendeleydesktop/libexec/%{name}.%{_target_cpu} %{buildroot}%{_libexecdir}/%{name}
+#ln -s /bin/true %{buildroot}%{_bindir}/install-mendeley-link-handler.sh
 
 desktop-file-install --delete-original  --dir=${RPM_BUILD_ROOT}%{_datadir}/applications share/applications/%{name}.desktop
 
-%clean
-rm -rf %{buildroot}
-
+# Libre office plugins
+mkdir -p %{buildroot}%{loextdir}
+pushd %{buildroot}%{_datadir}/mendeleydesktop
+unzip openOfficePlugin/Mendeley-%{version}.oxt -d %{buildroot}%{loextdir}
+chmod 644 %{buildroot}%{loextdir}/{description.xml,Mendeley/*.xba}
+chmod 755 %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
+rm -r openOfficePlugin
+popd
 
 %post
-# Update shared libraries
+update-desktop-database &> /dev/null || :
+touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 /sbin/ldconfig
-
-/usr/bin/update-desktop-database &> /dev/null || :
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
 
 %postun
-# Update shared libraries
+if [ $1 -eq 0 ] ; then
+    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+fi
+update-desktop-database &> /dev/null || :
 /sbin/ldconfig
 
-/usr/bin/update-desktop-database &> /dev/null || :
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
 %posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
+gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files
-%doc %{_defaultdocdir}/%{name}-%{version}
-%{_bindir}/*
+%license LICENSE
+%doc README
+%{_bindir}/%{name}
+%{_libdir}/libMendeley.so.*
 %{_libdir}/libPDFNetC.so
-%{_libdir}/*.so.*
 %{_datadir}/%{name}
-%{_datadir}/applications/*
-%{_datadir}/icons/hicolor/*/apps/*
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_libexecdir}/%{name}
 
 %files devel
 %{_libdir}/libMendeley.so
 
+%files -n libreoffice-Mendeley
+%license share/mendeleydesktop/openOfficePlugin/EducationalCommunityLicense.txt
+%{loextdir}
 
-# Make sure to use rpmdev-bumpspec to update this
 %changelog
+* Sun Jan 22 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.6-2
+- Merged  Dominik Mierzejewski <rpm@greysector.net>'s rpm file into this one.
+  https://rathann.fedorapeople.org/review/mendeleydesktop/
+
+* Sun Jan 22 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.6
+- Updated to Mendeley 1.17.6
+
 * Tue Oct 18 2016 Mark Harfouche <mark.harfouche@gmail.com> - 1.17
 - Updated to Mendeley 1.17
 

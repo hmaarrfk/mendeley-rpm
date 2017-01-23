@@ -1,15 +1,12 @@
-SPEC_NAME=mendeleydesktop.spec
+PACKAGE_NAME=mendeleydesktop
 
 
 all:
 	rpmdev-setuptree
-	spectool -g -R *.spec
+	spectool -g -R $(PACKAGE_NAME).spec
 	cp README.md ~/rpmbuild/SOURCES/.
-	#cp *.spec ~/rpmbuild/SPECS/
-	#cp *.tar.* ~/rpmbuild/SOURCES/
 	cp *.patch ~/rpmbuild/SOURCES/
-	#rpmbuild -bs ~/rpmbuild/SPECS/mendeleydesktop.spec
-	rpmbuild -bs $(SPEC_NAME)
+	rpmbuild -bs $(PACKAGE_NAME).spec
 
 
 .PHONY: all
