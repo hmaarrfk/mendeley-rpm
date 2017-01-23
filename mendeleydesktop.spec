@@ -1,6 +1,6 @@
 Name:       mendeleydesktop
 Version:    1.17.6
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Academic reference management software for researchers
 
 
@@ -61,7 +61,7 @@ Our software, Mendeley Desktop, offers you:
   Desktop also lets you filter your library by authors, journals or keywords.
   You can also use document collections, notes and tags to organize your
   knowledge, and export the document details in different citation styles.
-* Sharing and synchronisation of your library (or parts of it) with
+* Sharing and synchronization of your library (or parts of it) with
   selected colleagues. This is perfect for jointly managing all the papers in
   your lab!
 * More great features: A plug-in for citing your articles in Microsoft
@@ -90,7 +90,6 @@ a bibliography automatically.
 # The location of the installed extension
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
-
 %prep
 %ifarch i486
 %setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
@@ -98,7 +97,6 @@ a bibliography automatically.
 %setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 2
 %endif
 %patch0
-
 
 %build
 # seems like the executable is looking for this variable
@@ -125,7 +123,6 @@ done
 install -pm755 lib/lib{Mendeley.so,Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}
 install -Dpm755 bin/%{name}                 %{buildroot}%{_bindir}/%{name}
 install -Dpm755 lib/mendeleydesktop/libexec/%{name}.%{_target_cpu} %{buildroot}%{_libexecdir}/%{name}
-#ln -s /bin/true %{buildroot}%{_bindir}/install-mendeley-link-handler.sh
 
 desktop-file-install --delete-original  --dir=${RPM_BUILD_ROOT}%{_datadir}/applications share/applications/%{name}.desktop
 
@@ -158,8 +155,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %license LICENSE
 %doc README
 %{_bindir}/%{name}
-%{_libdir}/libMendeley.so.*
 %{_libdir}/libPDFNetC.so
+%{_libdir}/libMendeley.so.*
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
@@ -173,6 +170,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{loextdir}
 
 %changelog
+* Mon Jan 23 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.6-3
+- rebuilt
+
 * Sun Jan 22 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.6-2
 - Merged  Dominik Mierzejewski <rpm@greysector.net>'s rpm file into this one.
   https://rathann.fedorapeople.org/review/mendeleydesktop/
