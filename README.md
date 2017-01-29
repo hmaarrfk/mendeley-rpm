@@ -81,3 +81,8 @@ If you want to, you can merge Dominik's spec file with this one, add both of you
 https://bugzilla.rpmfusion.org/show_bug.cgi?id=4041
 
 Since Mendeley doesn't update too often, manually downloading the RPM didn't seem like a bad solution.
+
+Other ways to obtain Mendeley
+============
+AppImage: (Seems a little out of date though)
+https://bintray.com/probono/AppImages/Mendeley_Desktop/
