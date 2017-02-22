@@ -1,6 +1,6 @@
 Name:       mendeleydesktop
-Version:    1.17.6
-Release:    3%{?dist}
+Version:    1.17.8
+Release:    1%{?dist}
 Summary:    Academic reference management software for researchers
 
 
@@ -104,7 +104,7 @@ a bibliography automatically.
 cat > bin/%{name} <<EOF
 #!/bin/sh
 export MENDELEY_BUNDLED_QT_PLUGIN_PATH=%{_libdir}/qt5/plugins
-%{_libexecdir}/%{name}
+%{_libexecdir}/%{name} "$@"
 EOF
 chmod +x bin/%{name}
 
@@ -170,6 +170,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{loextdir}
 
 %changelog
+* Wed Feb 22 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.8
+- New upstream version
+
 * Mon Jan 23 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.6-3
 - rebuilt
 
