@@ -46,6 +46,8 @@ ExclusiveArch: i486 x86_64
 BuildRequires: desktop-file-utils
 Requires: hicolor-icon-theme
 
+%global        debug_package %{nil}
+%global        __strip /bin/true
 
 %description
 Mendeley is a combination of a desktop application and a website which
@@ -87,6 +89,8 @@ from your Mendeley library into OpenOffice documents and generated
 a bibliography automatically.
 
 %global debug_package %{nil}
+%global        __strip /bin/true
+
 # The location of the installed extension
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
