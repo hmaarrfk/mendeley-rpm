@@ -1,19 +1,16 @@
-Name:       mendeleydesktop
-Version:    1.17.8
-Release:    2%{?dist}
-Summary:    Academic reference management software for researchers
-
 %global        debug_package %{nil}
-
 # The location of the installed extension
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
+Name:       mendeleydesktop
+Version:    1.17.8
+Release:    3%{?dist}
+Summary:    Academic reference management software for researchers
 
 #Group:
 License:       LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
 URL:           http://www.mendeley.com/
-Source1:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-i486.tar.bz2
-Source2:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
+Source1:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
 Patch0:        mendeleydesktop-desktopfile.patch
 
 
@@ -41,20 +38,12 @@ Provides: bundled(throbber.js) = 0.1
 Provides: bundled(qunit.js) = 1.15.0
 # https://www.pdftron.com/pdfnet/downloads.html
 Provides: bundled(PDFNetC) = 5.1
-
-
-%ifarch %{ix86}
-BuildArch: i486
-%endif
-
-# I removed i486 from the Exclusive Arch list
-# You can try to readd it if there is demand. 
-# If there is no demand, we can cleanup the code to remove the 32bit lines
-ExclusiveArch: x86_64
+# bundled in libPDFNetC.so:
+Provides: bundled(libpng) = 1.2.29
+Provides: bundled(zlib) = 1.2.3
 
 BuildRequires: desktop-file-utils
 Requires: hicolor-icon-theme
-
 
 %description
 Mendeley is a combination of a desktop application and a website which
@@ -90,11 +79,7 @@ from your Mendeley library into OpenOffice documents and generated
 a bibliography automatically.
 
 %prep
-%ifarch i486
-%setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
-%else
 %setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 2
-%endif
 %patch0
 
 %build
@@ -166,6 +151,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{loextdir}
 
 %changelog
+* Fri Aug 4 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.8-3
+- Added more info about bundled libraries (Thanks Dominik Mierzejewski)
+
 * Fri Aug 4 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.8-2
 - Removed devel and 32 bit support
 
