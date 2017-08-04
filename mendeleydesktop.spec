@@ -3,6 +3,11 @@ Version:    1.17.8
 Release:    1%{?dist}
 Summary:    Academic reference management software for researchers
 
+%global        debug_package %{nil}
+
+# The location of the installed extension
+%global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
+
 
 #Group:
 License:       LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
@@ -41,13 +46,15 @@ Provides: bundled(PDFNetC) = 5.1
 %ifarch %{ix86}
 BuildArch: i486
 %endif
-ExclusiveArch: i486 x86_64
+
+# I removed i486 from the Exclusive Arch list
+# You can try to readd it if there is demand. 
+# If there is no demand, we can cleanup the code to remove the 32bit lines
+ExclusiveArch: x86_64
 
 BuildRequires: desktop-file-utils
 Requires: hicolor-icon-theme
 
-%global        debug_package %{nil}
-%global        __strip /bin/true
 
 %description
 Mendeley is a combination of a desktop application and a website which
@@ -87,12 +94,6 @@ This extension provides integration between Mendeley Desktop and
 OpenOffice/LibreOffice, providing the ability to insert citations
 from your Mendeley library into OpenOffice documents and generated
 a bibliography automatically.
-
-%global debug_package %{nil}
-%global        __strip /bin/true
-
-# The location of the installed extension
-%global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 %prep
 %ifarch i486
