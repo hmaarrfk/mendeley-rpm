@@ -1,6 +1,6 @@
 Name:       mendeleydesktop
 Version:    1.17.8
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Academic reference management software for researchers
 
 %global        debug_package %{nil}
@@ -77,12 +77,6 @@ Our software, Mendeley Desktop, offers you:
   Word, OCR (image-to-text conversion, so you can full-text search all your
   scanned PDFs) and lots more new features being worked upon.
 
-%package devel
-Summary: Development files for mendeleydesktop
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-%description devel
-Development files for mendeleydesktop.
-
 %package -n libreoffice-Mendeley
 Summary: Insert citations and generate bibliography from Mendeley
 License: ECL 1.0
@@ -125,7 +119,7 @@ for s in `ls share/icons/hicolor` ; do
   install -Dpm644 {share/icons/hicolor,%{buildroot}%{_datadir}/icons/hicolor}/${s}/apps/mendeleydesktop.png
 done
 
-install -pm755 lib/lib{Mendeley.so,Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}
+install -pm755 lib/lib{Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}
 install -Dpm755 bin/%{name}                 %{buildroot}%{_bindir}/%{name}
 install -Dpm755 lib/mendeleydesktop/libexec/%{name}.%{_target_cpu} %{buildroot}%{_libexecdir}/%{name}
 
@@ -167,14 +161,14 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_libexecdir}/%{name}
 
-%files devel
-%{_libdir}/libMendeley.so
-
 %files -n libreoffice-Mendeley
 %license share/mendeleydesktop/openOfficePlugin/EducationalCommunityLicense.txt
 %{loextdir}
 
 %changelog
+* Fri Aug 4 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.8-2
+- Removed devel and 32 bit support
+
 * Wed Feb 22 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.8
 - New upstream version
 
