@@ -3,14 +3,14 @@
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:       mendeleydesktop
-Version:    1.17.8
-Release:    3%{?dist}
+Version:    1.17.10
+Release:    1%{?dist}
 Summary:    Academic reference management software for researchers
 
 #Group:
 License:       LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
-URL:           http://www.mendeley.com/
-Source1:       http://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
+URL:           https://www.mendeley.com/
+Source1:       https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
 Patch0:        mendeleydesktop-desktopfile.patch
 
 
@@ -79,7 +79,7 @@ from your Mendeley library into OpenOffice documents and generated
 a bibliography automatically.
 
 %prep
-%setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 2
+%setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
 %patch0
 
 %build
@@ -151,6 +151,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{loextdir}
 
 %changelog
+* Sat Aug 5 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.10
+- New upstream version
+
 * Fri Aug 4 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.8-3
 - Added more info about bundled libraries (Thanks Dominik Mierzejewski)
 
