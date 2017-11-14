@@ -29,7 +29,7 @@ Easy way
 
 Hard way: Build the RPM yourself
 --------------------------------
-
+You need the tool `mock` that you can read more about [here](https://fedoraproject.org/wiki/Using_Mock_to_test_package_builds)
 1. Clone: `git clone https://github.com/hmaarrfk/mendeley-rpm.git`.
 2. `make`.
 3. Run `mock` with the generated `srpm`.
@@ -70,9 +70,7 @@ At one point in time, this package was hosted on COPR. This broke their
 guidelines so I had to remove it.
 
 I was trying to upload it to rpmfusion but hit a small snag that I don't
-particularly have time to solve. If you want to, you can merge Dominik's spec
-file with this one, add both of you to the author list (or at least credit
-Dominik for his good work) and revive the issue on the bug request below.
+particularly have time to solve.
 
 https://bugzilla.rpmfusion.org/show_bug.cgi?id=4041
 
