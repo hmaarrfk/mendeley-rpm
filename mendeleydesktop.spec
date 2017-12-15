@@ -3,7 +3,7 @@
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:       mendeleydesktop
-Version:    1.17.11
+Version:    1.17.12
 Release:    1%{?dist}
 Summary:    Academic reference management software for researchers
 
@@ -151,6 +151,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{loextdir}
 
 %changelog
+* Tue Nov 14 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.12
+- Updated to 1.17.12
+
 * Tue Nov 14 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.11-1
 - rebuilt
 
