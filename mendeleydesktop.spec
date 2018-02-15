@@ -44,6 +44,7 @@ Provides: bundled(zlib) = 1.2.3
 
 BuildRequires: desktop-file-utils
 Requires: hicolor-icon-theme
+Requires: qt5-qtstyleplugins
 
 %description
 Mendeley is a combination of a desktop application and a website which
@@ -151,6 +152,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{loextdir}
 
 %changelog
+* Thu Feb 15 2018 Philipp Jaeger <p@pj4e.de> - 1.17.13
+- Updated to 1.17.13
+
 * Tue Nov 14 2017 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.12
 - Updated to 1.17.12
 
