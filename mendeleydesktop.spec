@@ -3,7 +3,7 @@
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:       mendeleydesktop
-Version:    1.17.12
+Version:    1.17.13
 Release:    1%{?dist}
 Summary:    Academic reference management software for researchers
 
