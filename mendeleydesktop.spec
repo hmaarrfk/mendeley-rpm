@@ -4,7 +4,7 @@
 
 Name:       mendeleydesktop
 Version:    1.17.13
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Academic reference management software for researchers
 
 #Group:
@@ -120,21 +120,7 @@ chmod 755 %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
 rm -r openOfficePlugin
 popd
 
-%post
-update-desktop-database &> /dev/null || :
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-/sbin/ldconfig
-
-%postun
-if [ $1 -eq 0 ] ; then
-    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-update-desktop-database &> /dev/null || :
-/sbin/ldconfig
-
-%posttrans
-gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+%ldconfig_scriptlets
 
 %files
 %license LICENSE
@@ -152,6 +138,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{loextdir}
 
 %changelog
+* Thu Apr 12 2018 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.13-2
+- ldconfig_scriptlets
+- Removed desktopfiles post and postun
+
 * Thu Feb 15 2018 Philipp Jaeger <p@pj4e.de> - 1.17.13
 - Updated to 1.17.13
 
