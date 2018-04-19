@@ -3,8 +3,8 @@
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:       mendeleydesktop
-Version:    1.17.13
-Release:    2%{?dist}
+Version:    1.18
+Release:    1%{?dist}
 Summary:    Academic reference management software for researchers
 
 #Group:
@@ -138,6 +138,9 @@ popd
 %{loextdir}
 
 %changelog
+* Thu Apr 19 2018 Mark Harfouche <mark.harfouche@gmail.com> - 1.18-1
+- Mendeley 1.18
+
 * Thu Apr 12 2018 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.13-2
 - ldconfig_scriptlets
 - Removed desktopfiles post and postun
