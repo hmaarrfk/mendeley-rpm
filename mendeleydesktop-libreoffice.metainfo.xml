@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2018 Luya Tshimbalanga <luya_tfz@thefinalzone.net> -->
+<component type="addon">
+​  <id>com.mendeley.mendeleydesktop-libreoffice</id>
+  <extends>com.mendeley.mendeleydesktop</extends>
+  <name>Citation Plugin for Libre Office</name>
+  <summary>Citation Plugin for Libre Office</summary>
+  <url type="homepage">https://www.mendeley.com</url>
+  <url type="bugtracker">https://service.elsevier.com/app/home/supporthub/mendeley/</url>
+  <project_group>Mendeley</project_group>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD</project_license>
+</component>
