@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2018 Luya Tshimbalanga <luya_tfz@thefinalzone.net> -->
 <component type="desktop-application">
-​  <id>com.mendeley.mendeleydesktop</id>
+​  <id>com.elsevier.MendeleyDesktop</id>
   <metadata_license>FSFAP</metadata_license>
   <project_license>LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD</project_license>
   <name>Mendeley</name>
