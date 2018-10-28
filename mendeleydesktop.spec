@@ -3,15 +3,15 @@
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:       mendeleydesktop
-Version:    1.17.13
-Release:    2%{?dist}
+Version:    1.19.2
+Release:    1%{?dist}
 Summary:    Academic reference management software for researchers
 
 #Group:
 License:       LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
 URL:           https://www.mendeley.com/
 Source1:       https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
-Patch0:        mendeleydesktop-desktopfile.patch
+#Patch0:        mendeleydesktop-desktopfile.patch
 
 
 # Bundled Libraries
@@ -80,8 +80,7 @@ from your Mendeley library into OpenOffice documents and generated
 a bibliography automatically.
 
 %prep
-%setup -q -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
-%patch0
+%autosetup -p1 -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
 
 %build
 # seems like the executable is looking for this variable
@@ -138,6 +137,10 @@ popd
 %{loextdir}
 
 %changelog
+* Sun Oct 21 2018 Mark Harfouche <luya_tfz@thefinalzone.net> - 1.19.2-1
+- Updated to 1.19.2
+- Modernized spec 
+
 * Thu Apr 12 2018 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.13-2
 - ldconfig_scriptlets
 - Removed desktopfiles post and postun
@@ -298,5 +301,4 @@ popd
 
 * Tue Jan 22 2013 Mark Harfouche - 0.1.0-2
 - Fixed the dependency for libpng.so.3
-
 
