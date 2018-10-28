@@ -137,7 +137,7 @@ popd
 %{loextdir}
 
 %changelog
-* Sun Oct 21 2018 Mark Harfouche <luya_tfz@thefinalzone.net> - 1.19.2-1
+* Sun Oct 21 2018 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.2-1
 - Updated to 1.19.2
 - Modernized spec 
 
