@@ -43,9 +43,15 @@
   <launchable type="desktop-id">mendeleydesktop.desktop</launchable>
 
   <screenshots>
-​    <screenshot type="default">
-​      <caption>The user interface</caption>
-      <image>https://2.bp.blogspot.com/-oZnl3C750Qg/TxmKMJgfdhI/AAAAAAAAHdM/LNwTZC-UE8o/s1600/mendeley-desktop_3.png</image>
+    <screenshot type="default">
+      <caption>User interface</caption>
+      <image>http://thefinalzone.net/img/apps/mendeley/mendeley-desktop_1.png</image>
+    </screenshot>
+    <screenshot>
+      <image>http://thefinalzone.net/img/apps/mendeley/mendeley-desktop_2.png</image>
+    </screenshot>
+    <screenshot>
+      <image>http://thefinalzone.net/img/apps/mendeley/mendeley-desktop_3.png</image>
     </screenshot>
   </screenshots>
 

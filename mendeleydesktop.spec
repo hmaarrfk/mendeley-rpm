@@ -2,15 +2,17 @@
 # The location of the installed extension
 %global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
-Name:       mendeleydesktop
-Version:    1.19.2
-Release:    1%{?dist}
-Summary:    Academic reference management software for researchers
+Name:		mendeleydesktop
+Version:	1.19.2
+Release:	1%{?dist}
+Summary:	Academic reference management software for researchers
 
 #Group:
-License:       LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
-URL:           https://www.mendeley.com/
-Source1:       https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
+License:	LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
+URL:		https://www.mendeley.com/
+Source1:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
+Source2:	mendeleydesktop.appdata.xml		
+Source3:	mendeleydesktop-libreoffice.metainfo.xml
 #Patch0:        mendeleydesktop-desktopfile.patch
 
 
@@ -42,6 +44,8 @@ Provides: bundled(PDFNetC) = 5.1
 Provides: bundled(libpng) = 1.2.29
 Provides: bundled(zlib) = 1.2.3
 
+# Appstream data
+BuildRequires: libappstream-glib
 BuildRequires: desktop-file-utils
 Requires: hicolor-icon-theme
 Requires: qt5-qtstyleplugins
@@ -119,7 +123,16 @@ chmod 755 %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
 rm -r openOfficePlugin
 popd
 
+# AppData
+install -p -m 644 -D %{SOURCE2} %{buildroot}/%{_metainfodir}/%{name}.appdata.xml
+install -p -m 644 -D %{SOURCE3} %{buildroot}/%{_metainfodir}/%{name}-libreoffice.metainfo.xml
+
+
 %ldconfig_scriptlets
+
+%check
+appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}-libreoffice.metainfo.xml
 
 %files
 %license LICENSE
@@ -130,16 +143,19 @@ popd
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_metainfodir}/%{name}.appdata.xml
 %{_libexecdir}/%{name}
 
 %files -n libreoffice-Mendeley
 %license share/mendeleydesktop/openOfficePlugin/EducationalCommunityLicense.txt
 %{loextdir}
+%{_metainfodir}/%{name}-libreoffice.metainfo.xml
 
 %changelog
 * Sun Oct 21 2018 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.2-1
 - Updated to 1.19.2
-- Modernized spec 
+- Modernized spec
+- Drop patch 
 
 * Thu Apr 12 2018 Mark Harfouche <mark.harfouche@gmail.com> - 1.17.13-2
 - ldconfig_scriptlets
