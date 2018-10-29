@@ -44,14 +44,20 @@
 
   <screenshots>
     <screenshot type="default">
-      <caption>User interface</caption>
-      <image>http://thefinalzone.net/img/apps/mendeley/mendeley-desktop_1.png</image>
+      <caption>Mendeley Desktop in default Library as Table view</caption>
+      <image>https://raw.github.com/hmaarrfk/mendeley-rpm/master/images/mendeley-desktop_2.png</image>
     </screenshot>
     <screenshot>
-      <image>http://thefinalzone.net/img/apps/mendeley/mendeley-desktop_2.png</image>
+      <caption>Login session</caption>
+      <image>https://raw.github.com/hmaarrfk/mendeley-rpm/master/images/mendeley-desktop_0.png</image>
     </screenshot>
     <screenshot>
-      <image>http://thefinalzone.net/img/apps/mendeley/mendeley-desktop_3.png</image>
+      <caption>Welcome dialog</caption>
+      <image>https://raw.github.com/hmaarrfk/mendeley-rpm/master/images/mendeley-desktop_1.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Mendeley Desktop in Library as Citation view</caption>
+      <image>https://raw.github.com/hmaarrfk/mendeley-rpm/master/images/mendeley-desktop_3.png</image>
     </screenshot>
   </screenshots>
 
