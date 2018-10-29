@@ -34,6 +34,25 @@ You need the tool `mock` that you can read more about [here](https://fedoraproje
 2. `make`.
 3. Run `mock` with the generated `srpm`.
 
+Screenshots
+===========
+![Login session](https://github.com/hmaarrfk/mendeley-rpm/blob/master/images/mendeley-desktop_0.png)
+
+Login session
+
+![Welcome dialog](https://github.com/hmaarrfk/mendeley-rpm/blob/master/images/mendeley-desktop_1.png)
+
+Welcome dialog when opened for the first
+
+![Mendeley Desktop in default Library as Table view](https://github.com/hmaarrfk/mendeley-rpm/blob/master/images/mendeley-desktop_2.png)
+
+Mendeley Desktop in default Library as Table view
+
+![Mendeley Desktop in Library as Citation view](https://github.com/hmaarrfk/mendeley-rpm/blob/master/images/mendeley-desktop_3.png)
+
+Mendeley Desktop in Library as Citation view
+
+
 Wish official support
 =====================
 
@@ -50,7 +69,7 @@ Collaborators
 =============
 
 The first version was written by Mark Harfouche (2013.01.21). A few
-collaborators helped along the way: Chris Fallin, Filipe Manco.
+collaborators helped along the way: Chris Fallin, Filipe Manco and Luya Tshimbalanga.
 
 Development Notes
 =================
