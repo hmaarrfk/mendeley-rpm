@@ -1,7 +1,8 @@
 mendeley-rpm
 ============
 
-Git Repository at: [mendeley-rpm](https://github.com/hmaarrfk/mendeley-rpm)
+Git Repository at: [mendeley-rpm](https://github.com/hmaarrfk/mendeley-rpm).
+
 This is an unofficial package designed for Fedora that packages [Mendeley
 Desktop](https://www.mendeley.com/) freely available from the web.
 
