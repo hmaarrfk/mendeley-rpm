@@ -1,19 +1,24 @@
-%global        debug_package %{nil}
+%global		debug_package %{nil}
 # The location of the installed extension
-%global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
+%global		loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:		mendeleydesktop
-Version:	1.19.2
+Version:	1.19.3
 Release:	1%{?dist}
 Summary:	Academic reference management software for researchers
 
 #Group:
 License:	LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
 URL:		https://www.mendeley.com/
+%ifarch x86_64
 Source1:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
+%endif
+%ifarch i686
+Source1:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-i486.tar.bz2
+%endif
 Source2:	mendeleydesktop.appdata.xml		
 Source3:	mendeleydesktop-libreoffice.metainfo.xml
-#Patch0:        mendeleydesktop-desktopfile.patch
+Patch0:		mendeleydesktop-desktopfile.patch
 
 
 # Bundled Libraries
@@ -49,6 +54,13 @@ BuildRequires: libappstream-glib
 BuildRequires: desktop-file-utils
 Requires: hicolor-icon-theme
 Requires: qt5-qtstyleplugins
+
+# Needed to resolve shebang issue
+BuildRequires:	python3-devel
+BuildRequires:	/usr/bin/pathfix.py
+
+# Set exclusivity for x86 based architecture
+ExclusiveArch:	i686 x86_64
 
 %description
 Mendeley is a combination of a desktop application and a website which
@@ -86,16 +98,15 @@ a bibliography automatically.
 %prep
 %autosetup -p1 -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
 
-%build
-# seems like the executable is looking for this variable
-# so I had to set it.
-cat > bin/%{name} <<EOF
-#!/bin/sh
-export MENDELEY_BUNDLED_QT_PLUGIN_PATH=%{_libdir}/qt5/plugins
-%{_libexecdir}/%{name} "$@"
-EOF
-chmod +x bin/%{name}
+# Fix Python shebangs 
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" bin/%{name} 
 
+# Fix path of binary
+sed -i \
+    -e 's|"/../../opt/mendeleydesktop"|"%{_prefix}"|g' \
+	bin/%{name}
+	  
+%build
 # Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
 rm  -rf share/icons/hicolor/48x48
 rm  -rf share/icons/hicolor/64x64
@@ -109,17 +120,20 @@ for s in `ls share/icons/hicolor` ; do
 done
 
 install -pm755 lib/lib{Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}
-install -Dpm755 bin/%{name}                 %{buildroot}%{_bindir}/%{name}
+install -Dpm755 bin/%{name} %{buildroot}%{_bindir}/%{name}
 install -Dpm755 lib/mendeleydesktop/libexec/%{name}.%{_target_cpu} %{buildroot}%{_libexecdir}/%{name}
 
-desktop-file-install --delete-original  --dir=${RPM_BUILD_ROOT}%{_datadir}/applications share/applications/%{name}.desktop
+desktop-file-install --delete-original --dir=${RPM_BUILD_ROOT}%{_datadir}/applications share/applications/%{name}.desktop
 
 # Libre office plugins
 mkdir -p %{buildroot}%{loextdir}
 pushd %{buildroot}%{_datadir}/mendeleydesktop
 unzip openOfficePlugin/Mendeley-%{version}.oxt -d %{buildroot}%{loextdir}
 chmod 644 %{buildroot}%{loextdir}/{description.xml,Mendeley/*.xba}
+# Fix Python shebangs 
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
 chmod 755 %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
+
 rm -r openOfficePlugin
 popd
 
@@ -152,6 +166,11 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}-libre
 %{_metainfodir}/%{name}-libreoffice.metainfo.xml
 
 %changelog
+* Mon Feb 18 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.3-1
+- Updated to 1.19.3
+- Reenable patch for desktop file
+- Set exclusivity for both 32 and 64 bits x86 architectures
+
 * Sun Oct 21 2018 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.2-1
 - Updated to 1.19.2
 - Modernized spec
