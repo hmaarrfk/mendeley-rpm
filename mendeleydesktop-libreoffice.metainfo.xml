@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2018 Luya Tshimbalanga <luya_tfz@thefinalzone.net> -->
 <component type="addon">
-​  <id>com.elsevier.mendeleydesktop-libreoffice</id>
-  <extends>com.elsevier.MendeleyDesktop</extends>
+​  <id>com.mendeley.mendeleydesktop-libreoffice</id>
+  <extends>com.mendeley.mendeleydesktop</extends>
   <name>Citation Plugin for Libre Office</name>
   <summary>Citation Plugin for Libre Office</summary>
   <url type="homepage">https://www.mendeley.com</url>
