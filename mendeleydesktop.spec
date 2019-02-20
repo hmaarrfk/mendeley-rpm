@@ -1,19 +1,20 @@
-%global        debug_package %{nil}
+%global		debug_package %{nil}
 # The location of the installed extension
-%global loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
+%global		loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:		mendeleydesktop
-Version:	1.19.2
-Release:	1%{?dist}
+Version:	1.19.3
+Release:	2%{?dist}
 Summary:	Academic reference management software for researchers
 
 #Group:
 License:	LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
 URL:		https://www.mendeley.com/
-Source1:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
+Source0:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
+Source1:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-i486.tar.bz2
 Source2:	mendeleydesktop.appdata.xml		
 Source3:	mendeleydesktop-libreoffice.metainfo.xml
-#Patch0:        mendeleydesktop-desktopfile.patch
+Patch0:		mendeleydesktop-desktopfile.patch
 
 
 # Bundled Libraries
@@ -48,7 +49,16 @@ Provides: bundled(zlib) = 1.2.3
 BuildRequires: libappstream-glib
 BuildRequires: desktop-file-utils
 Requires: hicolor-icon-theme
-Requires: qt5-qtstyleplugins
+
+# Needed to resolve shebang issue
+BuildRequires:	python3-devel
+
+# Set exclusivity for x86 based architecture
+%ifarch x86_64
+ExclusiveArch:	x86_64 
+%else
+ExclusiveArch:	i686
+%endif
 
 %description
 Mendeley is a combination of a desktop application and a website which
@@ -84,35 +94,36 @@ from your Mendeley library into OpenOffice documents and generated
 a bibliography automatically.
 
 %prep
-%autosetup -p1 -n %{name}-%{version}-linux-%{_target_cpu} -T -b 1
+%ifarch i686
+%autosetup -p1 -n mendeleydesktop-%{version}-linux-i486
+%else
+%autosetup -p1 -n mendeleydesktop-%{version}-linux-%{_target_cpu}
+%endif
+
 
 %build
-# seems like the executable is looking for this variable
-# so I had to set it.
-cat > bin/%{name} <<EOF
-#!/bin/sh
-export MENDELEY_BUNDLED_QT_PLUGIN_PATH=%{_libdir}/qt5/plugins
-%{_libexecdir}/%{name} "$@"
-EOF
-chmod +x bin/%{name}
-
 # Remove the problematic icons 48x48 and 64x64 look bad because they have a white border
 rm  -rf share/icons/hicolor/48x48
 rm  -rf share/icons/hicolor/64x64
 
 %install
-mkdir -p %{buildroot}{%{_datadir},%{_libdir}}
-cp -pr share/mendeleydesktop %{buildroot}%{_datadir}
+mkdir -p %{buildroot}{%{_bindir},%{_datadir},%{_libdir}}
+
+install -pm755 lib/lib{Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}/
+install -Dpm755 lib/%{name}/libexec/%{name}.%{_target_cpu} %{buildroot}%{_bindir}/%{name}
+
+cp -pr share/mendeleydesktop %{buildroot}%{_datadir}/
+
+ln -s /bin/true %{buildroot}%{_bindir}/install-mendeley-link-handler.sh
 
 for s in `ls share/icons/hicolor` ; do
   install -Dpm644 {share/icons/hicolor,%{buildroot}%{_datadir}/icons/hicolor}/${s}/apps/mendeleydesktop.png
 done
 
-install -pm755 lib/lib{Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}
-install -Dpm755 bin/%{name}                 %{buildroot}%{_bindir}/%{name}
-install -Dpm755 lib/mendeleydesktop/libexec/%{name}.%{_target_cpu} %{buildroot}%{_libexecdir}/%{name}
+desktop-file-install  --vendor "" --dir %{buildroot}%{_datadir}/applications \
+   --add-mime-type=application/pdf --add-mime-type=text/x-bibtex \
+   share/applications/%{name}.desktop
 
-desktop-file-install --delete-original  --dir=${RPM_BUILD_ROOT}%{_datadir}/applications share/applications/%{name}.desktop
 
 # Libre office plugins
 mkdir -p %{buildroot}%{loextdir}
@@ -120,13 +131,14 @@ pushd %{buildroot}%{_datadir}/mendeleydesktop
 unzip openOfficePlugin/Mendeley-%{version}.oxt -d %{buildroot}%{loextdir}
 chmod 644 %{buildroot}%{loextdir}/{description.xml,Mendeley/*.xba}
 chmod 755 %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
+# Fix Python shebangs 
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
 rm -r openOfficePlugin
 popd
 
 # AppData
 install -p -m 644 -D %{SOURCE2} %{buildroot}/%{_metainfodir}/%{name}.appdata.xml
 install -p -m 644 -D %{SOURCE3} %{buildroot}/%{_metainfodir}/%{name}-libreoffice.metainfo.xml
-
 
 %ldconfig_scriptlets
 
@@ -138,13 +150,14 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}-libre
 %license LICENSE
 %doc README
 %{_bindir}/%{name}
+%{_bindir}/install-mendeley-link-handler.sh
 %{_libdir}/libPDFNetC.so
 %{_libdir}/libMendeley.so.*
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_metainfodir}/%{name}.appdata.xml
-%{_libexecdir}/%{name}
+
 
 %files -n libreoffice-Mendeley
 %license share/mendeleydesktop/openOfficePlugin/EducationalCommunityLicense.txt
@@ -152,6 +165,17 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}-libre
 %{_metainfodir}/%{name}-libreoffice.metainfo.xml
 
 %changelog
+* Mon Feb 18 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.3-2
+- Fix from rpmfusion bugzilla #4041 suggested by Dominik 'Rathann' Mierzejewski
+- Drop qt5-qtstyleplugins dependency as requirement
+- Drop redundant pathfix.py from build requirement
+- Use modern macro for desktop-utils path
+
+* Mon Feb 18 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.3-1
+- Updated to 1.19.3
+- Reenable patch for desktop file
+- Set exclusivity for both 32 and 64 bits x86 architectures
+
 * Sun Oct 21 2018 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.2-1
 - Updated to 1.19.2
 - Modernized spec

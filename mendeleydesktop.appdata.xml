@@ -4,7 +4,7 @@
 ​  <id>com.elsevier.MendeleyDesktop</id>
   <metadata_license>FSFAP</metadata_license>
   <project_license>LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD</project_license>
-  <name>Mendeley</name>
+  <name>Mendeley Desktop</name>
   <summary>Academic reference management software for researchers</summary>
 
   <description>
@@ -69,20 +69,21 @@
   </provides>
 
   <releases>
-    <release version="1.19.2" date="2018-01-01">
+    <release version="1.19.3" date="2019-01-01">
       <description>
+	<p>We have fixed the following bugs:</p>
 	<ul>
-​	  <li>The database back-up feature has been restored.</li>
-          <li>We fixed bugs that were causing the app to crash during:
+​	  <li>In the library:
              <ul>
-              <li>Sync</li>
-              <li>PDF import; and</li>
-              <li>Opening a corrupted database</li>
+              <li>The ‘Read’ column has been restored in the Recently Read view</li>
+              <li>The application is no longer unresponsive during automatic backups</li>
+              <li>Annotations can now be moved after they have been created</li>
+              <li>Annotations are no longer displaying as ‘Unknown user’ for all exported annotations</li>
              </ul>
           </li>
-          <li>We also fixed two bugs relating to sync causing:
+          <li>In the LibreOffice citation plugin:
 	     <ul>
-              <li>Incorrect sync for users using the app on more than one machine</li>
+              <li>Adjacent inline or footnote citations no longer fail to merge when cited in a table</li>
               <li>Sync to fail when the user profile was not synced</li>
              </ul>
 	  </li>
