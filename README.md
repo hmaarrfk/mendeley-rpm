@@ -106,19 +106,4 @@ https://bintray.com/probono/AppImages/Mendeley_Desktop/
 
 Known Bugs
 ==========
-There exists a QT incompatibility that I found a workaround for a while ago.
-
-The spec file creates a barebones executable that sets the variables `MENDELEY_BUNDLED_QT_PLUGIN_PATH` to that of Fedora's.
-```bash
-
-# seems like the executable is looking for this variable
-# so I had to set it.
-cat > bin/%{name} <<EOF
-#!/bin/sh
-export MENDELEY_BUNDLED_QT_PLUGIN_PATH=%{_libdir}/qt5/plugins
-%{_libexecdir}/%{name} "$@"
-EOF
-chmod +x bin/%{name}
-```
-
-The link to the bug on the Mendeley [website](http://support.mendeley.com/customer/portal/questions/16832835-mendeley-desktop-1-17-8-on-fedora-crashes-a-few-seconds-after-starting) seems to have a similar workaround.
+None.
