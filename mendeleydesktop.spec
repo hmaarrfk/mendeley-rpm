@@ -3,7 +3,7 @@
 %global		loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:		mendeleydesktop
-Version:	1.19.4
+Version:	1.19.5
 Release:	1%{?dist}
 Summary:	Academic reference management software for researchers
 
@@ -166,7 +166,7 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}-libre
 
 %changelog
 * Thu May 02 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.4-1
-- Update to 1.19.4
+- Update to 1.19.5
 
 * Mon Feb 18 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.3-2
 - Fix from rpmfusion bugzilla #4041 suggested by Dominik 'Rathann' Mierzejewski
