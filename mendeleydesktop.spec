@@ -3,8 +3,8 @@
 %global		loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:		mendeleydesktop
-Version:	1.19.3
-Release:	2%{?dist}
+Version:	1.19.5
+Release:	1%{?dist}
 Summary:	Academic reference management software for researchers
 
 #Group:
@@ -12,9 +12,9 @@ License:	LGPLv2+ and Mendeley and MIT and CC-BY-SA and (CPAL or AGPLv3) and BSD
 URL:		https://www.mendeley.com/
 Source0:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-x86_64.tar.bz2
 Source1:	https://desktop-download.mendeley.com/download/linux/%{name}-%{version}-linux-i486.tar.bz2
-Source2:	mendeleydesktop.appdata.xml		
-Source3:	mendeleydesktop-libreoffice.metainfo.xml
-Patch0:		mendeleydesktop-desktopfile.patch
+Source2:	%{name}.appdata.xml		
+Source3:	%{name}-libreoffice.metainfo.xml
+Patch0:		%{name}-desktopfile.patch
 
 
 # Bundled Libraries
@@ -95,9 +95,9 @@ a bibliography automatically.
 
 %prep
 %ifarch i686
-%autosetup -p1 -n mendeleydesktop-%{version}-linux-i486
+%autosetup -p1 -n %{name}-%{version}-linux-i486
 %else
-%autosetup -p1 -n mendeleydesktop-%{version}-linux-%{_target_cpu}
+%autosetup -p1 -n %{name}-%{version}-linux-%{_target_cpu}
 %endif
 
 
@@ -112,12 +112,12 @@ mkdir -p %{buildroot}{%{_bindir},%{_datadir},%{_libdir}}
 install -pm755 lib/lib{Mendeley.so.%{version},PDFNetC.so} %{buildroot}%{_libdir}/
 install -Dpm755 lib/%{name}/libexec/%{name}.%{_target_cpu} %{buildroot}%{_bindir}/%{name}
 
-cp -pr share/mendeleydesktop %{buildroot}%{_datadir}/
+cp -pr share/%{name} %{buildroot}%{_datadir}/
 
 ln -s /bin/true %{buildroot}%{_bindir}/install-mendeley-link-handler.sh
 
 for s in `ls share/icons/hicolor` ; do
-  install -Dpm644 {share/icons/hicolor,%{buildroot}%{_datadir}/icons/hicolor}/${s}/apps/mendeleydesktop.png
+  install -Dpm644 {share/icons/hicolor,%{buildroot}%{_datadir}/icons/hicolor}/${s}/apps/%{name}.png
 done
 
 desktop-file-install  --vendor "" --dir %{buildroot}%{_datadir}/applications \
@@ -127,7 +127,7 @@ desktop-file-install  --vendor "" --dir %{buildroot}%{_datadir}/applications \
 
 # Libre office plugins
 mkdir -p %{buildroot}%{loextdir}
-pushd %{buildroot}%{_datadir}/mendeleydesktop
+pushd %{buildroot}%{_datadir}/%{name}
 unzip openOfficePlugin/Mendeley-%{version}.oxt -d %{buildroot}%{loextdir}
 chmod 644 %{buildroot}%{loextdir}/{description.xml,Mendeley/*.xba}
 chmod 755 %{buildroot}%{loextdir}/Scripts/MendeleyDesktopAPI.py
@@ -160,11 +160,14 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}-libre
 
 
 %files -n libreoffice-Mendeley
-%license share/mendeleydesktop/openOfficePlugin/EducationalCommunityLicense.txt
+%license share/%{name}/openOfficePlugin/EducationalCommunityLicense.txt
 %{loextdir}
 %{_metainfodir}/%{name}-libreoffice.metainfo.xml
 
 %changelog
+* Thu May 02 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.4-1
+- Update to 1.19.5
+
 * Mon Feb 18 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.3-2
 - Fix from rpmfusion bugzilla #4041 suggested by Dominik 'Rathann' Mierzejewski
 - Drop qt5-qtstyleplugins dependency as requirement
