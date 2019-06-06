@@ -3,7 +3,7 @@
 %global		loextdir %{_libdir}/libreoffice/share/extensions/Mendeley
 
 Name:		mendeleydesktop
-Version:	1.19.5
+Version:	1.19.4
 Release:	1%{?dist}
 Summary:	Academic reference management software for researchers
 
@@ -54,11 +54,7 @@ Requires: hicolor-icon-theme
 BuildRequires:	python3-devel
 
 # Set exclusivity for x86 based architecture
-%ifarch x86_64
-ExclusiveArch:	x86_64 
-%else
-ExclusiveArch:	i686
-%endif
+ExclusiveArch:	i686 x86_64 
 
 %description
 Mendeley is a combination of a desktop application and a website which
@@ -97,7 +93,7 @@ a bibliography automatically.
 %ifarch i686
 %autosetup -p1 -n %{name}-%{version}-linux-i486
 %else
-%autosetup -p1 -n %{name}-%{version}-linux-%{_target_cpu}
+%autosetup -p1 -n %{name}-%{version}-linux-x86_64
 %endif
 
 
@@ -166,7 +162,8 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}-libre
 
 %changelog
 * Thu May 02 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.4-1
-- Update to 1.19.5
+- Update to 1.19.4
+- Remove conditional statement for ExclusiveArch
 
 * Mon Feb 18 2019 Luya Tshimbalanga <luya_tfz@thefinalzone.net> - 1.19.3-2
 - Fix from rpmfusion bugzilla #4041 suggested by Dominik 'Rathann' Mierzejewski
