@@ -27,6 +27,8 @@ Easy way
 3. Now, install the RPM file, for example with `sudo dnf install
    mendeleydesktop-VERSION.ARCHITECTURE.rpm` (where you have to replace
    VERSION and ARCHITECTURE).
+  
+ *Note: this method will be supplanted by using rpmfusion repository.
 
 Hard way: Build the RPM yourself
 --------------------------------
@@ -94,8 +96,8 @@ particularly have time to solve.
 
 https://bugzilla.rpmfusion.org/show_bug.cgi?id=4041
 
-Since Mendeley doesn't update too often, manually downloading the RPM didn't
-seem like a bad solution.
+After several revisions to adhere to rpmfusion guideline, Mendeley Desktop finally landed to [rpmfusion
+repository](http://koji.rpmfusion.org/koji/packageinfo?packageID=594) first in devel branch and update-testing for each active Fedora (29 and 30) and Red Hat Enterprise 8 releases.
 
 Other ways to obtain Mendeley
 =============================
