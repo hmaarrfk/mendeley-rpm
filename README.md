@@ -21,8 +21,8 @@ Easy way (Recommended)
 ----------------------
 Mendeley Desktop is availabe in rpmfusion repository.
 1. Visit [RPM Fusion](https://rpmfusion.org/Configuration) to install the repository when needed.
-2a. Simply browse for Mendeley on GNOME Software or your favourite frontend package manager.
-2b. Alternately from a terminal, execute the command `sudo dnf install mendeleydesktop` or `pkcon install mendeleydesktop`.
+2. Simply browse for Mendeley on GNOME Software or your favourite frontend package manager.
+3. Alternately from a terminal, execute the command `sudo dnf install mendeleydesktop` or `pkcon install mendeleydesktop`.
 
 Medium way
 ----------
