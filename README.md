@@ -17,9 +17,15 @@ of this install.
 Installation
 ============
 
-Easy way
---------
+Easy way (Recommended)
+----------------------
+Mendeley Desktop is availabe in rpmfusion repository.
+1. Visit [RPM Fusion](https://rpmfusion.org/Configuration) to install the repository when needed.
+2a. Simply browse for Mendeley on GNOME Software or your favourite frontend package manager.
+2b. Alternately from a terminal, execute the command `sudo dnf install mendeleydesktop` or `pkcon install mendeleydesktop`.
 
+Medium way
+----------
 1. Download the latest RPM file for your computer architecture from
    https://github.com/hmaarrfk/mendeley-rpm/releases
 2. Open a terminal and navigate to the folder which contains the RPM file, for
@@ -28,7 +34,7 @@ Easy way
    mendeleydesktop-VERSION.ARCHITECTURE.rpm` (where you have to replace
    VERSION and ARCHITECTURE).
   
- *Note: this method will be supplanted by using rpmfusion repository.
+ 
 
 Hard way: Build the RPM yourself
 --------------------------------
@@ -101,6 +107,8 @@ repository](http://koji.rpmfusion.org/koji/packageinfo?packageID=594) first in d
 
 Other ways to obtain Mendeley
 =============================
+Flathub:
+https://flathub.org/apps/details/com.elsevier.MendeleyDesktop
 
 AppImage: (Seems a little out of date though)
 https://bintray.com/probono/AppImages/Mendeley_Desktop/
